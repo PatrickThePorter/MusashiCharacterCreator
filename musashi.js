@@ -11,7 +11,6 @@ const classList = {
     Scholar: "Scholar"
 }
 
-// I am going to regret this later
 const skills = {
     might: {
         mig1: "Intimidation",
@@ -82,6 +81,19 @@ const skills = {
     }
 }
 
+const ClassSkills = {
+    Samurai: ["Swords","Leadership"],
+    Mercenary: ["Polearms","Strength Feat"],
+    Shinobi: ["Stealth","Disguise"],
+    Priest: ["Religion","Medicine"],
+    WarriorMonk: ["Religion","Exotics"],
+    Merchant: ["Appraisal","Lie"],
+    Performer: ["Theatre","Charm"],
+    Pirate: ["Navigation","Firearms"],
+    Hunter: ["Nature","Archery"],
+    Scholar: ["Calligraphy","History"]
+}
+
 function classSelectCreateList()
 {
     "use strict";
@@ -95,6 +107,11 @@ function classSelectCreateList()
         option.textContent = classes[i];
         classSelect.appendChild(option);
     }
+}
+
+function setClassSkills(charClass)
+{
+    
 }
 
 function init()
