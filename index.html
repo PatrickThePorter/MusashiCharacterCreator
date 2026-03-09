@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Myths of Musashi Character Creator</title>
+    </head>
+    <body>
+        <style>
+
+        </style>
+        <script src="musashi.js"></script>
+        <div id="about", class="center">
+            <h1>Myths of Musashi Character Creator</h1>
+            <p>
+                Welcome to the Myths of Musashi Character Creator. Use the controls below to create your Musashi character. Once completed,
+                you can export your character.
+            </p>
+        </div>
+        <div id="creator">
+            <h2>Basics</h2>
+            <h3>Name</h3>
+            <label for="name" id="character_name_label">
+                Name: <input type="text" id="name">
+            </label>
+            <br>
+            <h3>Class</h3>
+            <label for="charClass" id="character_class_label">
+                Select class
+                <select id="charClass"></select>
+            </label>
+            <h3>Statistics</h3>
+            <p>
+                Enter your statistics from a pool of starting points. The amount of starting points can vary, but it is usually 30.
+                Statistics are between 3-10 inclusive.
+            </p>
+            <label for="charMig" id="charMig_label">
+                <b>MIGHT:</b><input type="number" id="charMig" min="3" max="10">
+            </label>
+            <label for="charRef" id="charRef_label">
+                <b>REFLEX:</b><input type="number" id="charRef" min="3" max="10">
+            </label>
+            <label for="charInt" id="charInt_label">
+                <b>INTELLECT:</b><input type="number" id="charInt" min="3" max="10">
+            </label>
+            <label for="charWil" id="charWil_label">
+                <b>WILLPOWER:</b><input type="number" id="charWil" min="3" max="10">
+            </label>
+            <label for="charAll" id="charAtt_label">
+                <b>ALLURE:</b><input type="number" id="charAll" min="3" max="10">
+            </label>
+            <h2>Lifepath</h2>
+        </div>
+    </body>
+</html>
