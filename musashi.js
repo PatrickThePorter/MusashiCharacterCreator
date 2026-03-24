@@ -4,7 +4,9 @@ const lifeEventList = document.getElementById('lifeevents')
 const lifeEventGenButton = document.getElementById('genLifeEvents')
 const lifePathGenButton = document.getElementById('genLifepath')
 const charAgeInput = document.getElementById('age')
-console.log(charAgeInput.value)
+const exportToClipboardBtn = document.getElementById('copyToClipboard')
+
+const charName = document.getElementById('name')
 
 const lifepathData = []
 const lifeEventData = []
@@ -477,6 +479,12 @@ lifePathGenButton.onclick = (event) =>
     createLifepathCharacteristics()
 }
 
+exportToClipboardBtn.onclick = (event) =>
+{
+    event.preventDefault()
+    exportToClipboard()
+}
+
 function pickRandomFromArray(arr)
 {
     return arr[Math.floor(Math.random()*arr.length)];
@@ -717,10 +725,25 @@ function clearLifeEvents()
     lifeEventList.innerHTML = ""
 }
 
+function exportToClipboard()
+{
+    let characterClipboardText = ""
+
+    // NAME, AGE, CLASS
+    characterClipboardText += "NAME: " + charName.value
+    characterClipboardText += "\nCLASS: " + document.getElementById('charClassSelect').value
+    characterClipboardText += "\nAGE: " + document.getElementById('age').value
+
+    // BASIC STATS
+    characterClipboardText += "\n\nMight: " + document.getElementById('charMig').value + ", Reflex: " + document.getElementById('charRef').value
+    characterClipboardText += ", Intellect: " + document.getElementById('charInt').value + ", Willpower: " + document.getElementById('charWil').value
+    characterClipboardText += ", Allure: " + document.getElementById('charAll').value
+    navigator.clipboard.writeText(characterClipboardText)
+}
+
 function init()
 {
     "use strict"
     classSelectCreateList()
-    //createLifepath(27)
 }
 window.onload = init
