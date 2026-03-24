@@ -400,7 +400,39 @@ function majorLifeEventString()
 function classEventString()
 {
     const className = classSelector.value
-    return className;
+    switch (className)
+    {
+        case "Samurai":
+            return pickRandomFromArray(SamuraiClassEvents)
+            break;
+        case "Mercenary":
+            return pickRandomFromArray(MercenaryClassEvents)
+            break;
+        case "Shinobi":
+            return pickRandomFromArray(ShinobiClassEvents)
+            break;
+        case "Priest":
+            return pickRandomFromArray(PriestClassEvents)
+            break;
+        case "WarriorMonk":
+            return pickRandomFromArray(WarriorMonkClassEvents)
+            break;
+        case "Pirate":
+            return pickRandomFromArray(PirateClassEvents)
+            break;
+        case "Hunter":
+            return pickRandomFromArray(HunterClassEvents)
+            break;
+        case "Scholar":
+            return pickRandomFromArray(ScholarClassEvents)
+            break;
+        case "Performer":
+            return pickRandomFromArray(PerformerClassEvents)
+            break;
+        case "Merchant":
+            return pickRandomFromArray(MerchantClassEvents)
+            break;
+    }
 }
 
 function romanceString()
@@ -479,6 +511,7 @@ function createLifepath(age = 0)
 
 function createLifeEvents(age)
 {
+    clearLifeEvents();
     for (let i = 17; i<age; i++)
     {
         let newLifeEvent = createLifeEvent(i)
@@ -538,6 +571,11 @@ function createLifeEvent(age)
             lifeEvent += "ERROR: life event index out of range at " + lifeEventIndex + "."
     }
     return lifeEvent
+}
+
+function clearLifeEvents()
+{
+    lifeEventList.innerHTML = ""
 }
 
 function init()
