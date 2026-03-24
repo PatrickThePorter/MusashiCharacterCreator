@@ -1,3 +1,5 @@
+const classSelector = document.getElementById('charClassSelect')
+
 const classList = {
     Samurai: "Samurai",
     Mercenary: "Mercenary",
@@ -10,7 +12,6 @@ const classList = {
     Hunter: "Hunter",
     Scholar: "Scholar"
 }
-
 const skills = {
     might: {
         mig1: "Intimidation",
@@ -94,24 +95,181 @@ const ClassSkills = {
     Scholar: ["Calligraphy","History"]
 }
 
+const LifepathEventType = [
+    "Major Life Event",
+    "Major Life Event",
+    "Major Life Event",
+    "Class Event",
+    "Class Event",
+    "Class Event",
+    "Romantic Engagement",
+    "Romantic Engagement",
+    "Allies and Enemies",
+    "Allies and Enemies",
+    "Dull Year, Nothing Happened"
+];
+
+const LifepathMajorLifeEventDisasters = [
+    "Imprisoned: your character was imprisoned for D6 months.",
+    "Disfigured: your character suffered an injury that has disfigured their appearance. Subtract 1 from your character’s allure stat",
+    "Death of a loved one: roll a D6. 1-2, a parent has died. 3-4 a friend has died. 5-6 a lover, child, or sibling has died.",
+    "Addiction: your character has become addicted to a substance. Subtract 1 from their intellect.",
+    "Hunted by the Law: people want your character caught, roll a D6 to determine who wants to catch you. 1-2 it’s just some local guards. 3-4 it’s the forces of a province. 5-6 the collection of a few provinces want you imprisoned.",
+    "Hunted by Criminals: somebody wants yourhead, roll a D6 to see who does. 1-2 a local warlord wants blood. 3-4 a bandit crew wants something you have, money or otherwise. 5-6 some pirates have taken notice of you.",
+    "Illness: you have contracted an illness, subtract 1 from your character’s might.",
+    "Betrayal: a person you held in high regard has betrayed you.",
+    "Debt: your character owes a debt to someone. The amount owed is equal to 1D10 gold.",
+    "Major Debt: your character owes a lot of money to some bad people. They owe 1D10x10 gold",
+    "Spiritual encounter: your character has a close encounter with spirits ghosts or demons. Subtract 1 from your character’s willpower.",
+    "Abducted: your character was stolen from their home for D6 months."
+]
+
+const LifepathMajorLifeEventBenefits = [
+    "Made extra money: your character gains 1D10 gold",
+    "Picked up a new skill: select one skill your character doesn’t have, and you gain a 1 in it.",
+    "Made good with a Warlord: a minor warlord has taken to liking you and owes you a favour.",
+    "Befriended bandits: a group of local bandits appreciate what you’ve done for them. they owe you a favour.",
+    "Pirates take an interest: a pirate crew have found you dependable. They owe you a favour.",
+    "Local Lord grants a boon: you performed a good deed for the lord, and to thank you they gave a gift, roll a D6. 1-2, he gives you a horse and saddle. 3-4 he gave you a property in his city. 5-6 he gave you a farmstead in his territory.",
+    "Mystic favours: somehow, you’ve pleased a spirit. They owe you one favour.",
+    "Found treasure: your character has found a massive source of treasure. Your character gains 1D10x10 gold.",
+    "Merchant’s favour: you did a particularly good deed for a merchant, and now they’ll offer you a discount.",
+    "Trained under a master: choose one skill your character has, increase it by 1.",
+    "Foreign friend: you befriended a foreigner. Your character learns one language of their choice.",
+    "Treasure trove: your character found an enormous stash of wealth, equal to 1D10x15."
+]
+
+const SamuraiClassEvents = [
+    "You brought much honour to your lord. (+1 to Leadership)",
+    "You fought very valiantly in battle. (+1 to Swords)",
+    "You gained fame.",
+    "You brought minor dishonour upon yourself. (-1 to Leadership)",
+    "You lost fame.",
+    "Was out of combat (-1 to Swords)"
+];
+
+const MercenaryClassEvents = [
+    "You learned a new weapon skill of your choice. (starts as a +1)",
+    "You were richly rewarded. (1d10x2 gold)",
+    "You won a contest of strength and gained fame.",
+    "You lost a notable fight and lost fame.",
+    "You lost a prominent contact.",
+    "Didn't get much practice (-1 Polearms skill)"
+]
+
+const ShinobiClassEvents = [
+    "You maintained a cover for an extended period. (+1 to Lie)",
+    "You pulled off a stunning assassination. (+1 to Small Blades)",
+    "You picked up a new skill for your cover. (starts at 1)",
+    "Your cover was broken. (-1 to Lie)",
+    "Failed Assassination attempt (-1 to Small Blades)",
+    "Your lord has abandoned you."
+]
+
+const PriestClassEvents = [
+    "Had an epiphany about the universe. (+1 to Magic)",
+    "Discovered a truth of the world. (+1 to Nature)",
+    "Had a holy experience. (+1 to Religion)",
+    "Was guilty of earthly desires. (-1 Religion)",
+    "Became an Apostate.",
+    "Accused of Heresy."
+]
+
+const WarriorMonkClassEvents = [
+    "Perfected a form. (+1 to one weapon skill)",
+    "Practiced faith. (+1 to Religion)",
+    "Fought a mystic creature. (+1 to Magic)",
+    "Kicked out of a village.",
+    "Faith questioned. (-1 to Religion)",
+    "Minor injury lost you practice. (-1 to one Weapon Skill)"
+]
+
+const MerchantClassEvents = [
+    "Good season of sales. (2d10x2 gold)",
+    "Learned a new craft. (Brand new crafting skill, starts at 1.)",
+    "Earned a Lord's favour.",
+    "Lost sales. (-2d6 gold)",
+    "Lost a Lord's favour.",
+    "Wares were stolen. (-3d8 gold)"
+]
+
+const HunterClassEvents = [
+    "Lots of contracts. (2d6+2 gold)",
+    "Good hunting season. (+1 to Archery)",
+    "Mystic encounter. (+1 to Magic)",
+    "Bad season. (-2d6 gold)",
+    "Harsh winter. (-1 to Nature)",
+    "Lost a hunt."
+]
+
+const PerformerClassEvents = [
+    "Particularly good performance. (1d12 gold)",
+    "Gained a lot of fame.",
+    "Gained a new skill. (start new skill at 1)",
+    "Very bad performance. (-1 to Charm)",
+    "Insulted a fellow performer.",
+    "Lost fame."
+]
+
+const PirateClassEvents = [
+    "Good Haul. (2d10 gold)",
+    "Lots of practice at sea. (+1 Piloting)",
+    "Sponsored by a lord.",
+    "Raided by rival crew. (-2d6 gold)",
+    "Hunted by the lord's armies.",
+    "Taken prisoner. (1d6 months)",
+]
+
+const ScholarClassEvents = [
+    "Studied a new field. (start new skill at 1)",
+    "Found employ with a lord.",
+    "Incredible discovery. (+1 to History)",
+    "Made a controversal text.",
+    "Published misinformation. (-1 to Calligraphy)",
+    "Yokai stole your books. (those assholes)"
+]
+
+let currentClassSkills = ["", ""]
+
+classSelector.addEventListener("change", () => {
+    if (currentClassSkills != ["",""])
+    {
+        let prevousSkill1 = document.getElementById(currentClassSkills[0])
+        let prevousSkill2 = document.getElementById(currentClassSkills[1])
+        prevousSkill1.value = prevousSkill1.value - 5
+        prevousSkill2.value = prevousSkill2.value - 5
+    }
+    let skill1 = ClassSkills[classSelector.value][0].toLowerCase()
+    let skill2 = ClassSkills[classSelector.value][1].toLowerCase()
+    currentClassSkills[0] = skill1
+    currentClassSkills[1] = skill2
+    let skillDOM1 = document.getElementById(skill1)
+    let skillDOM2 = document.getElementById(skill2)
+    skillDOM1.value = 5;
+    skillDOM2.value = 5;
+});
+
+function rollDice(diceNum, numOfDice, mod)
+{
+    let result = 0;
+    for (let i = 0; i < numOfDice; i++)
+    {
+        result += Math.floor(Math.random() * diceNum) + 1;
+    }
+    result += mod;
+    return result;
+}
+
 function classSelectCreateList()
 {
     "use strict";
-    let classSelect = document.getElementById("charClass");
-    const classLength = Object.keys(classList).length;
-    const classes = Object.keys(classList);
-    for (let i = 0; i < classLength; i++)
-    {
-        let option = document.createElement("option");
-        option.value = i;
-        option.textContent = classes[i];
+    let classSelect = document.getElementById("charClassSelect");
+    Object.keys(classList).forEach(cls => {
+        const option = document.createElement("option");
+        option.value = cls;
+        option.textContent = cls;
         classSelect.appendChild(option);
-    }
-}
-
-function setClassSkills(charClass)
-{
-    
+    });
 }
 
 function init()

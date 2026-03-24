@@ -7,7 +7,6 @@
         <style>
 
         </style>
-        <script src="musashi.js"></script>
         <div id="about", class="center">
             <h1>Myths of Musashi Character Creator</h1>
             <p>
@@ -23,9 +22,9 @@
             </label>
             <br>
             <h3>Class</h3>
-            <label for="charClass" id="character_class_label">
+            <label id="character_class_label">
                 Select class
-                <select id="charClass"></select>
+                <select id="charClassSelect"></select>
             </label>
             <h3>Statistics</h3>
             <p>
@@ -114,7 +113,127 @@
             </label>
             <br>
             <h4>INTELLECT</h4>
+            <label for ="appraisal" id="appraisal_label">
+                Appraisal:<input type="number" id="appraisal" min="0" max="12">
+            </label>
+            <label for ="artistry" id="artistry_label">
+                Artistry:<input type="number" id="artistry" min="0" max="12">
+            </label>
+            <label for ="awareness" id="awareness_label">
+                Awareness:<input type="number" id="awareness" min="0" max="12">
+            </label>
+            <label for ="blacksmithing" id="blacksmiting_label">
+                Blacksmiting:<input type="number" id="blacksmiting" min="0" max="12">
+            </label>
+            <label for ="calligraphy" id="calligraphy_label">
+                Calligraphy:<input type="number" id="calligraphy" min="0" max="12">
+            </label>
+            <label for ="crafting" id="crafting_label">
+               Crafting:<input type="number" id="crafting" min="0" max="12">
+            </label>
+            <label for ="disguise" id="disguise_label">
+                Disguise:<input type="number" id="disguise" min="0" max="12">
+            </label>
+            <label for ="explosives" id="explosives_label">
+                Explosives:<input type="number" id="explosives" min="0" max="12">
+            </label>
+            <label for ="history" id="history_label">
+                History:<input type="number" id="history" min="0" max="12">
+            </label>
+            <label for ="insight" id="insight_label">
+                Insight:<input type="number" id="insight" min="0" max="12">
+            </label>
+            <label for ="languages1" id="languages1_label">
+                Language 1:<input type="number" id="languages1" min="0" max="12">
+            </label>
+            <label for ="languages2" id="languages2_label">
+                Language 2:<input type="number" id="languages2" min="0" max="12">
+            </label>
+            <label for ="languages3" id="languages3_label">
+                Language 3:<input type="number" id="languages3" min="0" max="12">
+            </label>
+            <label for ="magic" id="magic_label">
+                Magic:<input type="number" id="magic" min="0" max="12">
+            </label>
+            <label for ="medicine" id="medicine_label">
+                Medicine:<input type="number" id="medicine" min="0" max="12">
+            </label>
+            <label for ="navigation" id="navigation_label">
+                Navigation:<input type="number" id="navigation" min="0" max="12">
+            </label>
+            <label for ="persuade" id="persuade_label">
+                Persuade:<input type="number" id="persuade" min="0" max="12">
+            </label>
+            <label for ="play_instrument1" id="play_instrument1_label">
+                Play Instrument 1:<input type="number" id="play_instrument1" min="0" max="12">
+            </label>
+            <label for ="play_instrument2" id="play_instrument2_label">
+                Play Instrument 2:<input type="number" id="play_instrument2" min="0" max="12">
+            </label>
+            <label for ="play_instrument3" id="play_instrument3_label">
+                Play Instrument 3:<input type="number" id="play_instrument3" min="0" max="12">
+            </label>
+            <label for ="religion" id="religion_label">
+                Religion:<input type="number" id="religion" min="0" max="12">
+            </label>
+            <label for ="specialty_knowledge1" id="specialty_knowledge1_label">
+                Specialty Knowledge 1:<input type="number" id="specialty_knowledge1" min="0" max="12">
+            </label>
+            <label for ="specialty_knowledge2" id="specialty_knowledge2_label">
+                Specialty Knowledge 2:<input type="number" id="specialty_knowledge2" min="0" max="12">
+            </label>
+            <label for ="specialty_knowledge3" id="specialty_knowledge3_label">
+                Specialty Knowledge 3:<input type="number" id="specialty_knowledge3" min="0" max="12">
+            </label>
+            <label for ="tracking" id="tracking_label">
+                Tracking:<input type="number" id="tracking" min="0" max="12">
+            </label>
+            <br>
+            <h4>WILLPOWER</h4>
+            <label for ="leadership" id="leadership_label">
+                Leadership:<input type="number" id="leadership" min="0" max="12">
+            </label>
+            <label for ="resist_charms" id="resist_charms_label">
+                Resist Charms:<input type="number" id="resist_charms" min="0" max="12">
+            </label>
+            <label for ="resist_fear" id="resist_fear_label">
+                Resist Fear:<input type="number" id="resist_fear" min="0" max="12">
+            </label>
+            <label for ="resist_torture" id="resist_torture_label">
+                Resist Torture:<input type="number" id="resist_torture" min="0" max="12">
+            </label>
+            <label for ="threaten" id="threaten_label">
+                Threaten:<input type="number" id="threaten" min="0" max="12">
+            </label>
+            <br>
+            <h4>ALLURE</h4>
+            <label for ="charm" id="char_label">
+                Charm:<input type="number" id="charm" min="0" max="12">
+            </label>
+            <label for ="lie" id="lie_label">
+                Lie:<input type="number" id="lie" min="0" max="12">
+            </label>
+            <label for ="poetry" id="poetry_label">
+                Poetry:<input type="number" id="poetry" min="0" max="12">
+            </label>
+            <label for ="personal_grooming" id="personal_grooming_label">
+                Personal Grooming:<input type="number" id="personal_grooming" min="0" max="12">
+            </label>
+            <label for ="sing" id="sing_label">
+                Sing:<input type="number" id="sing" min="0" max="12">
+            </label>
+            <label for ="theatre" id="theatre_label">
+                Theatre:<input type="number" id="theatre" min="0" max="12">
+            </label>
+            <label for ="wardrobe" id="wardrobe_label">
+                Wardrobe:<input type="number" id="wardrobe" min="0" max="12">
+            </label>
             <h2>Lifepath</h2>
+            <p>Coming Soon</p>
+            <br>
+            <b2>Export</b2>
+            <p>Coming Soon</p>
         </div>
+        <script src="musashi.js"></script>
     </body>
 </html>
