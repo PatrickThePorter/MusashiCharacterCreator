@@ -26,6 +26,10 @@
                 Select class
                 <select id="charClassSelect"></select>
             </label>
+            <h3>Age</h3>
+            <label for="age" id="age_label">
+                Age: <input type="number" id="age" value="24">
+            </label>
             <h3>Statistics</h3>
             <p>
                 Enter your statistics from a pool of starting points. The amount of starting points can vary, but it is usually 30.
@@ -228,11 +232,14 @@
             <label for ="wardrobe" id="wardrobe_label">
                 Wardrobe:<input type="number" id="wardrobe" min="0" max="12">
             </label>
-            <h2>Lifepath</h2>
-            <p>Coming Soon</p>
-            <br>
-            <b2>Export</b2>
-            <p>Coming Soon</p>
+        </div>
+        <div>
+            <h2>Lifepath and Life Events</h2>
+            <h3>Lifepath</h3>
+            <ul id="lifepaths"></ul>
+            <h3>Life Events</h3>
+            <button id="genLifeEvents">Generate Life Events</button>
+            <ul id="lifeevents"></ul>
         </div>
         <script src="musashi.js"></script>
     </body>

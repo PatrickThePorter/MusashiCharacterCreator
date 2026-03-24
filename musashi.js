@@ -1,4 +1,12 @@
 const classSelector = document.getElementById('charClassSelect')
+const lifepathList = document.getElementById('lifepaths')
+const lifeEventList = document.getElementById('lifeevents')
+const lifeEventGenButton = document.getElementById('genLifeEvents')
+const charAgeInput = document.getElementById('age')
+console.log(charAgeInput.value)
+
+const lifepathData = []
+const lifeEventData = []
 
 const classList = {
     Samurai: "Samurai",
@@ -104,6 +112,7 @@ const LifepathEventType = [
     "Class Event",
     "Romantic Engagement",
     "Romantic Engagement",
+    "Allies and Enemies",
     "Allies and Enemies",
     "Allies and Enemies",
     "Dull Year, Nothing Happened"
@@ -229,7 +238,109 @@ const ScholarClassEvents = [
     "Yokai stole your books. (those assholes)"
 ]
 
+// Romance text: "You fell in love with a [RomancePerson]..."
+// Quick fling: "... but it was only a quick fling."
+// Tragic Ending: "... but they [RomanceTragedy]"
+// Feelings: "...[RomanceFeelings]"
+
+const RomancePerson = [
+    "relative of a friend",
+    "childhood friend",
+    "former enemy",
+    "career rival",
+    "arranged marriage partner",
+    "spirit in disguise"
+]
+
+const RomanceTragedy = [
+    "died",
+    "were stolen away",
+    "ended things on bad terms",
+    "went insane",
+    "ran away",
+    "were abducted by the Yokai"
+]
+
+const RomanceFeelings = [
+    "But it's over, time to move on.",
+    "You still have feelings for them.",
+    "They still have feelings for you.",
+    "You are mourning the loss to this day.",
+    "You mutually hate each other.",
+    "You both still have feelings for each other."
+]
+
+const RomanceType = {
+    FLING: "fling",
+    TRAGEDY: "tragedy",
+    FEELINGS: "feelings"
+}
+
+const RomanceTypeArr = [
+    "fling",
+    "tragedy",
+    "feelings"
+]
+
+// Ally text: "You made an ally from [AllyType]. They are a [AllyProfession]"
+
+const AllyType = [
+    "a rival",
+    "a reunited childhood friend",
+    "a former enemy",
+    "a friend of a friend",
+    "someone on the battlefield",
+    "a former lover",
+    "a mentor",
+    "a distant relative",
+    "a political enemy",
+    "a mutual enemy"
+];
+
+const AllyProfession = [
+    "samurai",
+    "mercenary",
+    "shinobi",
+    "priest",
+    "warrior monk",
+    "hunter",
+    "merchant",
+    "performer",
+    "pirate",
+    "scholar"
+]
+
+// Enemy text: "You made an enemy out of a [EnemyType]. [EnemyMotive]"
+const EnemyType = [
+    "former friend",
+    "former lover",
+    "previous employer",
+    "political rival",
+    "ranking official",
+    "warlord",
+    "bandit captain",
+    "pirate captain",
+    "daimyo",
+    "family member"
+]
+
+const EnemyMotive = [
+    "They betrayed you.",
+    "You betrayed them.",
+    "You are on the wrong sides of a conflict.",
+    "You brought them dishonour.",
+    "They brought you dishonour.",
+    "You foiled one of their plans.",
+    "You humiliated them.",
+    "You were romantic rivals.",
+    "You caused them an injury.",
+    "They caused you an injury."
+]
+
 let currentClassSkills = ["", ""]
+
+let charRomanceType = RomanceType.FLING;
+let isAsexual = false
 
 classSelector.addEventListener("change", () => {
     if (currentClassSkills != ["",""])
@@ -249,6 +360,19 @@ classSelector.addEventListener("change", () => {
     skillDOM2.value = 5;
 });
 
+lifeEventGenButton.onclick = (event) =>
+{
+    event.preventDefault()
+    const ageInput = document.getElementById('age').value
+    console.log("its being clicked at least at age " + ageInput)
+    createLifeEvents(ageInput || 0)
+}
+
+function pickRandomFromArray(arr)
+{
+    return arr[Math.floor(Math.random()*arr.length)];
+}
+
 function rollDice(diceNum, numOfDice, mod)
 {
     let result = 0;
@@ -258,6 +382,74 @@ function rollDice(diceNum, numOfDice, mod)
     }
     result += mod;
     return result;
+}
+
+function majorLifeEventString()
+{
+    const isDisaster = Boolean(Math.random() <= 0.5)
+    if (isDisaster)
+    {
+        return pickRandomFromArray(LifepathMajorLifeEventDisasters)
+    }
+    else
+    {
+        return pickRandomFromArray(LifepathMajorLifeEventBenefits)
+    }
+}
+
+function classEventString()
+{
+    const className = classSelector.value
+    return className;
+}
+
+function romanceString()
+{
+    const romType = pickRandomFromArray(RomanceTypeArr)
+    let romText = romType === "tragedy" ? pickRandomFromArray(RomanceTragedy) : pickRandomFromArray(RomanceFeelings)
+    return getRomanceString(pickRandomFromArray(RomancePerson), romType, romText)
+}
+
+function getRomanceString(person, romanceType, extraString = "")
+{
+    console.log("Romance type " + romanceType)
+    let romanceFate = "You fell in love with a " + person;
+    switch(romanceType)
+    {
+        case "fling":
+            romanceFate += ", but it was only a quick fling."
+            break;
+        case "tragedy":
+            romanceFate += ", but they " + extraString + "."
+            break;
+        case "feelings":
+            romanceFate += ". " + extraString
+            break;
+    }
+    return romanceFate;
+}
+
+function allyEnemyString()
+{
+    const decide = (Math.random() >= 0.5)
+    if (decide)
+    {
+        return allyString(pickRandomFromArray(AllyType), pickRandomFromArray(AllyProfession));
+    }
+    else
+    {
+        return enemyString(pickRandomFromArray(EnemyType), pickRandomFromArray(EnemyMotive));
+    }
+}
+
+function allyString(person, profession) 
+{
+    return "You made an ally from " + person + ". They are a " + profession + ".";
+}
+
+function enemyString(person, motive)
+{
+    return "You made an enemy from a " + person + ". " + motive;
 }
 
 function classSelectCreateList()
@@ -272,9 +464,86 @@ function classSelectCreateList()
     });
 }
 
+function createLifepath(age = 0)
+{
+    if (age === 0)
+    {
+        age = rollDice(12, 1, 16);
+    }
+
+    // TODO: Clear lifepath
+
+    // Create lifepath
+    createLifeEvents(age)
+}
+
+function createLifeEvents(age)
+{
+    for (let i = 17; i<age; i++)
+    {
+        let newLifeEvent = createLifeEvent(i)
+        const li = document.createElement('li')
+        li.innerHTML = newLifeEvent;
+        lifeEventList.appendChild(li)
+        console.log(newLifeEvent)
+    }
+}
+
+function createLifeEvent(age)
+{
+    const lifeEventIndex = Math.floor(Math.random()*(LifepathEventType.length))
+
+    let lifeEvent = age + ": ";
+    switch (lifeEventIndex)
+    {
+        case 0:
+        case 1:
+        case 2:
+            // Major Life Event
+            console.log("Major Life Event")
+            lifeEvent += majorLifeEventString()
+            break;
+        case 3:
+        case 4:
+        case 5:
+            // Class Event
+            console.log("Class Event")
+            lifeEvent += classEventString()
+            break;
+        case 6:
+        case 7:
+            // Romance Event
+            console.log("Romance Event")
+            if (isAsexual)
+            {
+                lifeEvent += majorLifeEventString()
+            }
+            else
+            {
+                lifeEvent += romanceString()
+            }
+            break;
+        case 8:
+        case 9:
+        case 10:
+            // Ally/Enemy Event
+            console.log("Ally/Enemy Event")
+            lifeEvent += allyEnemyString()
+            break;
+        case 11:
+            // nothing ever happens
+            lifeEvent += "Dull year. Nothing happened."
+            break;
+        default:
+            lifeEvent += "ERROR: life event index out of range at " + lifeEventIndex + "."
+    }
+    return lifeEvent
+}
+
 function init()
 {
     "use strict"
     classSelectCreateList()
+    //createLifepath(27)
 }
 window.onload = init
