@@ -2,6 +2,7 @@ const classSelector = document.getElementById('charClassSelect')
 const lifepathList = document.getElementById('lifepaths')
 const lifeEventList = document.getElementById('lifeevents')
 const lifeEventGenButton = document.getElementById('genLifeEvents')
+const lifePathGenButton = document.getElementById('genLifepath')
 const charAgeInput = document.getElementById('age')
 console.log(charAgeInput.value)
 
@@ -102,6 +103,108 @@ const ClassSkills = {
     Hunter: ["Nature","Archery"],
     Scholar: ["Calligraphy","History"]
 }
+
+const LifepathFamilyBackground = [
+    "Born to a family of farmers.",
+    "Born to a family of fishermen.",
+    "Born to a family of trained artisans.",
+    "Born to a family of scholars",
+    "Born to a family of merchants",
+    "Born to a noble family.",
+    "Born to a family of pirates.",
+    "Born to a family of travelling performers.",
+    "Born to a military family.",
+    "The child of a regional lord.",
+    "Raised in a monastery.",
+    "Orphan which never knew their family."
+]
+
+const LifepathFamilyTragedies = [
+    "Family was killed in war.",
+    "Family was displaced by war.",
+    "Family was displaced by famine.",
+    "Village was displaced by natural disaster.",
+    "Family died in plague.",
+    "Family died in famine.",
+    "Seperated from family by war.",
+    "Family gave you up for money.",
+    "Was abducted as a child by Pirates.",
+    "Was abudcted as a child by Yokai."
+]
+
+const LifepathPersonality = [
+    "Level-headed and calm.",
+    "Hot-headed and impulsive.",
+    "Shy and reclusive.",
+    "Arrogant and loud.",
+    "Airheaded and unobservant.",
+    "Silly and non-serious.",
+    "Sneaky and deceptive.",
+    "Brooding and headstrong.",
+    "Friendly and inclusive.",
+    "Bumbling Buffoon."
+]
+
+const LifepathValuedPeople = [
+    "A parental figure.",
+    "A sibling.",
+    "A mentor.",
+    "A friend.",
+    "A pet.",
+    "A performer.",
+    "Yourself.",
+    "Nobody. (yet)",
+    "The Shogun.",
+    "A deity."
+]
+
+const LifepathValuedConcepts = [
+    "Gold.",
+    "Honour.",
+    "Glory.",
+    "Honesty.",
+    "Love.",
+    "Power.",
+    "Camaraderie.",
+    "Love.",
+    "Vengeance.",
+    "Justice."
+]
+
+const LifepathOutlook = [
+    "Life is a canvas upon which great works may be made.",
+    "Life is an eternal battlefield where only the strong survive.",
+    "Life is a machine in which we all play a part.",
+    "Life is a song, fleeting and beautiful.",
+    "The universe was made to make us suffer.",
+    "Life is a story waiting to be told.",
+    "Life is meaningless, and nothing matters, that's a bad thing.",
+    "Life is meaningless, and nothing matters, that's a good thing.",
+    "Life is a great joke, and I'm not in on it.",
+    "Life is like a good bottle of Sake."
+]
+
+const LifepathCurrentStanding = [
+    "Your character is well respected.",
+    "Your character is loved by the people around them.",
+    "Your character is begrudgingly respected by those around them.",
+    "Your character is not well respected by those around them.",
+    "Your character is despised by their peers.",
+    "Nobody likes your character."
+]
+
+const LifepathValuedPossession = [
+    "weapon",
+    "tool",
+    "toy",
+    "trinket",
+    "piece of jewelry",
+    "religious symbol",
+    "letter",
+    "mysterious stone",
+    "piece of clothing",
+    "musical instrument"
+]
 
 const LifepathEventType = [
     "Major Life Event",
@@ -368,6 +471,12 @@ lifeEventGenButton.onclick = (event) =>
     createLifeEvents(ageInput || 0)
 }
 
+lifePathGenButton.onclick = (event) =>
+{
+    event.preventDefault()
+    createLifepathCharacteristics()
+}
+
 function pickRandomFromArray(arr)
 {
     return arr[Math.floor(Math.random()*arr.length)];
@@ -509,6 +618,37 @@ function createLifepath(age = 0)
     createLifeEvents(age)
 }
 
+function createLifepathCharacteristics()
+{
+    clearLifepathChar()
+
+    createLifepathChar("Family Background", pickRandomFromArray(LifepathFamilyBackground))
+
+    const familyTragedy = Boolean(Math.random() > 0.5)
+    const familyTragedyText = familyTragedy ? pickRandomFromArray(LifepathFamilyTragedies) : "No family tragedy."
+    createLifepathChar("Family Tragedy", familyTragedyText)
+
+    createLifepathChar("Personality", pickRandomFromArray(LifepathPersonality))
+    createLifepathChar("Valued Person", pickRandomFromArray(LifepathValuedPeople))
+    createLifepathChar("Valued Concept", pickRandomFromArray(LifepathValuedConcepts))
+    createLifepathChar("Outlook on Life", pickRandomFromArray(LifepathOutlook))
+    createLifepathChar("Current Standing", pickRandomFromArray(LifepathCurrentStanding))
+    createLifepathChar("Valued Possession", pickRandomFromArray(LifepathValuedPossession))
+}
+
+function createLifepathChar(characteristic, charEvent)
+{
+    let lifepathChar = characteristic + ": " + charEvent;
+    const li = document.createElement('li')
+    li.innerHTML = lifepathChar;
+    lifepathList.appendChild(li);
+}
+
+function clearLifepathChar()
+{
+    lifepathList.innerHTML = ""
+}
+
 function createLifeEvents(age)
 {
     clearLifeEvents();
@@ -518,7 +658,6 @@ function createLifeEvents(age)
         const li = document.createElement('li')
         li.innerHTML = newLifeEvent;
         lifeEventList.appendChild(li)
-        console.log(newLifeEvent)
     }
 }
 
