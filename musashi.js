@@ -4,10 +4,12 @@ const lifeEventList = document.getElementById('lifeevents')
 const lifeEventGenButton = document.getElementById('genLifeEvents')
 const lifePathGenButton = document.getElementById('genLifepath')
 const charAgeInput = document.getElementById('age')
-console.log(charAgeInput.value)
+const exportToClipboardBtn = document.getElementById('copyToClipboard')
 
-const lifepathData = []
-const lifeEventData = []
+const charName = document.getElementById('name')
+
+let lifepathData = []
+let lifeEventData = []
 
 const classList = {
     Samurai: "Samurai",
@@ -477,6 +479,12 @@ lifePathGenButton.onclick = (event) =>
     createLifepathCharacteristics()
 }
 
+exportToClipboardBtn.onclick = (event) =>
+{
+    event.preventDefault()
+    exportToClipboard()
+}
+
 function pickRandomFromArray(arr)
 {
     return arr[Math.floor(Math.random()*arr.length)];
@@ -622,18 +630,18 @@ function createLifepathCharacteristics()
 {
     clearLifepathChar()
 
-    createLifepathChar("Family Background", pickRandomFromArray(LifepathFamilyBackground))
+    lifepathData.push(createLifepathChar("Family Background", pickRandomFromArray(LifepathFamilyBackground)))
 
     const familyTragedy = Boolean(Math.random() > 0.5)
     const familyTragedyText = familyTragedy ? pickRandomFromArray(LifepathFamilyTragedies) : "No family tragedy."
-    createLifepathChar("Family Tragedy", familyTragedyText)
+    lifepathData.push(createLifepathChar("Family Tragedy", familyTragedyText))
 
-    createLifepathChar("Personality", pickRandomFromArray(LifepathPersonality))
-    createLifepathChar("Valued Person", pickRandomFromArray(LifepathValuedPeople))
-    createLifepathChar("Valued Concept", pickRandomFromArray(LifepathValuedConcepts))
-    createLifepathChar("Outlook on Life", pickRandomFromArray(LifepathOutlook))
-    createLifepathChar("Current Standing", pickRandomFromArray(LifepathCurrentStanding))
-    createLifepathChar("Valued Possession", pickRandomFromArray(LifepathValuedPossession))
+    lifepathData.push(createLifepathChar("Personality", pickRandomFromArray(LifepathPersonality)))
+    lifepathData.push(createLifepathChar("Valued Person", pickRandomFromArray(LifepathValuedPeople)))
+    lifepathData.push(createLifepathChar("Valued Concept", pickRandomFromArray(LifepathValuedConcepts)))
+    lifepathData.push(createLifepathChar("Outlook on Life", pickRandomFromArray(LifepathOutlook)))
+    lifepathData.push(createLifepathChar("Current Standing", pickRandomFromArray(LifepathCurrentStanding)))
+    lifepathData.push(createLifepathChar("Valued Possession", pickRandomFromArray(LifepathValuedPossession)))
 }
 
 function createLifepathChar(characteristic, charEvent)
@@ -642,11 +650,13 @@ function createLifepathChar(characteristic, charEvent)
     const li = document.createElement('li')
     li.innerHTML = lifepathChar;
     lifepathList.appendChild(li);
+    return lifepathChar
 }
 
 function clearLifepathChar()
 {
     lifepathList.innerHTML = ""
+    lifepathData = []
 }
 
 function createLifeEvents(age)
@@ -658,6 +668,7 @@ function createLifeEvents(age)
         const li = document.createElement('li')
         li.innerHTML = newLifeEvent;
         lifeEventList.appendChild(li)
+        lifeEventData.push(newLifeEvent)
     }
 }
 
@@ -715,12 +726,104 @@ function createLifeEvent(age)
 function clearLifeEvents()
 {
     lifeEventList.innerHTML = ""
+    lifeEventData = []
+}
+
+function getLifepathAsString()
+{
+    return lifepathData.join("\n")
+}
+
+function getLifeEventsAsString()
+{
+    return lifeEventData.join("\n")
+}
+
+function exportToClipboard()
+{
+    let characterClipboardText = ""
+
+    // NAME, AGE, CLASS
+    characterClipboardText += "NAME: " + charName.value
+    characterClipboardText += "\nCLASS: " + document.getElementById('charClassSelect').value
+    characterClipboardText += "\nAGE: " + document.getElementById('age').value
+
+    // BASIC STATS
+    characterClipboardText += "\n\nMight: " + document.getElementById('charMig').value + ", Reflex: " + document.getElementById('charRef').value
+    characterClipboardText += ", Intellect: " + document.getElementById('charInt').value + ", Willpower: " + document.getElementById('charWil').value
+    characterClipboardText += ", Allure: " + document.getElementById('charAll').value
+
+    // SKILLS (kill me)
+    characterClipboardText += "\n\nIntimidation: " + document.getElementById('intimidation').value
+    characterClipboardText += "\tResist Poison: " + document.getElementById('resist_poison').value
+    characterClipboardText += "\tStrength Feat: " + document.getElementById('strength_feat').value
+    characterClipboardText += "\tSwim: " + document.getElementById('swim').value
+
+    characterClipboardText += "\n\nArchery: " + document.getElementById('archery').value
+    characterClipboardText += "\tArtillery: " + document.getElementById('artillery').value
+    characterClipboardText += "\tBrawling: " + document.getElementById('brawling').value
+    characterClipboardText += "\tClimbing: " + document.getElementById('climbing').value
+    characterClipboardText += "\tDodge: " + document.getElementById('dodge').value
+    characterClipboardText += "\tExotics: " + document.getElementById('exotics').value
+    characterClipboardText += "\tFirearms: " + document.getElementById('firearms').value
+    characterClipboardText += "\tHeavy Weapons: " + document.getElementById('heavy_weapons').value
+    characterClipboardText += "\tHorse Riding: " + document.getElementById('horse_riding').value
+    characterClipboardText += "\tPolearms: " + document.getElementById('polearms').value
+    characterClipboardText += "\tPiloting: " + document.getElementById('piloting').value
+    characterClipboardText += "\tSmall Blades: " + document.getElementById('small_blades').value
+    characterClipboardText += "\tStealth: " + document.getElementById('stealth').value
+    characterClipboardText += "\tSwords: " + document.getElementById('swords').value
+    characterClipboardText += "\tUnarmed: " + document.getElementById('unarmed').value
+
+    characterClipboardText += "\n\nAppraisal: " + document.getElementById('appraisal').value
+    characterClipboardText += "\tArtistry: " + document.getElementById('artistry').value
+    characterClipboardText += "\tAwareness: " + document.getElementById('awareness').value
+    characterClipboardText += "\tBlacksmithing: " + document.getElementById('blacksmiting').value
+    characterClipboardText += "\tCalligraphy: " + document.getElementById('calligraphy').value
+    characterClipboardText += "\tCrafting: " + document.getElementById('crafting').value
+    characterClipboardText += "\tDisguise: " + document.getElementById('disguise').value
+    characterClipboardText += "\tExplosives: " + document.getElementById('explosives').value
+    characterClipboardText += "\tHistory: " + document.getElementById('history').value
+    characterClipboardText += "\tInsight: " + document.getElementById('insight').value
+    characterClipboardText += "\tLanguage 1: " + document.getElementById('languages1').value
+    characterClipboardText += "\tLanguage 2: " + document.getElementById('languages2').value
+    characterClipboardText += "\tLanguage 3: " + document.getElementById('languages3').value
+    characterClipboardText += "\tMagic: " + document.getElementById('magic').value
+    characterClipboardText += "\tMedicine: " + document.getElementById('medicine').value
+    characterClipboardText += "\tNavigation: " + document.getElementById('navigation').value
+    characterClipboardText += "\tPersuade: " + document.getElementById('persuade').value
+    characterClipboardText += "\tPlay Instrument 1: " + document.getElementById('play_instrument1').value
+    characterClipboardText += "\tPlay Instrument 2: " + document.getElementById('play_instrument2').value
+    characterClipboardText += "\tPlay Instrument 3: " + document.getElementById('play_instrument3').value
+    characterClipboardText += "\tReligion: " + document.getElementById('religion').value
+    characterClipboardText += "\tSpecialty Knowledge 1: " + document.getElementById('specialty_knowledge1').value
+    characterClipboardText += "\tSpecialty Knowledge 2: " + document.getElementById('specialty_knowledge2').value
+    characterClipboardText += "\tSpecialty Knowledge 3: " + document.getElementById('specialty_knowledge3').value
+    characterClipboardText += "\tTracking: " + document.getElementById('tracking').value
+
+    characterClipboardText += "\n\nLeadership: " + document.getElementById('leadership').value
+    characterClipboardText += "\tResist Charms: " + document.getElementById('resist_charms').value
+    characterClipboardText += "\tResist Fear: " + document.getElementById('resist_fear').value
+    characterClipboardText += "\tResist Torture: " + document.getElementById('resist_torture').value
+    characterClipboardText += "\tThreaten: " + document.getElementById('threaten').value
+
+    characterClipboardText += "\n\nCharm: " + document.getElementById('charm').value
+    characterClipboardText += "\tLie: " + document.getElementById('lie').value
+    characterClipboardText += "\tPoetry: " + document.getElementById('poetry').value
+    characterClipboardText += "\tPersonal Grooming: " + document.getElementById('personal_grooming').value
+    characterClipboardText += "\tSing: " + document.getElementById('sing').value
+    characterClipboardText += "\tTheatre: " + document.getElementById('theatre').value
+    characterClipboardText += "\tWardrobe: " + document.getElementById('wardrobe').value
+    
+    characterClipboardText += "\n\nLIFEPATH:\n" + getLifepathAsString()
+    characterClipboardText += "\n\nLIFE EVENTS:\n" + getLifeEventsAsString()
+
+    navigator.clipboard.writeText(characterClipboardText)
 }
 
 function init()
 {
     "use strict"
     classSelectCreateList()
-    //createLifepath(27)
 }
 window.onload = init

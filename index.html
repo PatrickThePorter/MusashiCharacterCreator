@@ -5,9 +5,11 @@
     </head>
     <body>
         <style>
-
+            body {background-color:lightyellow}
+            #skills {display:grid; grid-template-columns:repeat(5, 1fr); gap:1px}
+            .skills {display:flex;flex-direction: column;gap:10px}
         </style>
-        <div id="about", class="center">
+        <div id="about" class="red">
             <h1>Myths of Musashi Character Creator</h1>
             <p>
                 Welcome to the Myths of Musashi Character Creator. Use the controls below to create your Musashi character. Once completed,
@@ -36,202 +38,210 @@
                 Statistics are between 3-10 inclusive.
             </p>
             <label for="charMig" id="charMig_label">
-                <b>MIGHT:</b><input type="number" id="charMig" min="3" max="10">
+                <b>MIGHT: </b><input type="number" id="charMig" min="3" max="10" value="3">
             </label>
             <label for="charRef" id="charRef_label">
-                <b>REFLEX:</b><input type="number" id="charRef" min="3" max="10">
+                <b>REFLEX: </b><input type="number" id="charRef" min="3" max="10" value="3">
             </label>
             <label for="charInt" id="charInt_label">
-                <b>INTELLECT:</b><input type="number" id="charInt" min="3" max="10">
+                <b>INTELLECT: </b><input type="number" id="charInt" min="3" max="10" value="3">
             </label>
             <label for="charWil" id="charWil_label">
-                <b>WILLPOWER:</b><input type="number" id="charWil" min="3" max="10">
+                <b>WILLPOWER: </b><input type="number" id="charWil" min="3" max="10" value="3">
             </label>
             <label for="charAll" id="charAtt_label">
-                <b>ALLURE:</b><input type="number" id="charAll" min="3" max="10">
+                <b>ALLURE: </b><input type="number" id="charAll" min="3" max="10" value="3">
             </label>
             <h3>Skills</h3>
             <p>
                 You automatically get 5 in two skills based on your class. You have 15 skill points to start with to distribute among the other skills.
                 No skill can ever exceed 3 to start with, and no skill can ever exceed 12.
             </p>
-            <h4>MIGHT</h4>
-            <label for="intimidation" id="intimidation_label">
-                Intimidation:<input type="number" id="intimidation" min="0" max="12">
-            </label>
-            <label for="resist_poison" id="resist_poison_label">
-                Resist Poison:<input type="number" id="resist_poison" min="0" max="12">
-            </label>
-            <label for="strength_feat" id="strength_feat_label">
-                Strength Feat:<input type="number" id="strength_feat" min="0" max="12">
-            </label>
-            <label for="swim" id="swim_label">
-                Swim:<input type="number" id="swim" min="0" max="12">
-            </label>
-            <br>
-            <h4>REFLEX</h4>
+            <div id="skills">
+            <div id="might_skills" class="skills">
+            <h4>MIGHT </h4>
+                <label for="intimidation" id="intimidation_label">
+                    Intimidation:   <input type="number" id="intimidation" min="0" max="12" value="0">
+                </label>
+                <label for="resist_poison" id="resist_poison_label">
+                    Resist Poison:  <input type="number" id="resist_poison" min="0" max="12" value="0">
+                </label>
+                <label for="strength_feat" id="strength_feat_label">
+                    Strength Feat:  <input type="number" id="strength_feat" min="0" max="12" value="0">
+                </label>
+                <label for="swim" id="swim_label">
+                    Swim:   <input type="number" id="swim" min="0" max="12" value="0">
+                </label>
+            </div>
+            <div id="reflex_skills" class="skills">
+            <h4>REFLEX </h4>
             <label for="archery" id="archery_label">
-                Archery:<input type="number" id="archery" min="0" max="12">
+                Archery:    <input type="number" id="archery" min="0" max="12" value="0">
             </label>
             <label for="artillery" id="artillery_label">
-                Artillery:<input type="number" id="artillery" min="0" max="12">
+                Artillery:  <input type="number" id="artillery" min="0" max="12" value="0">
             </label>
             <label for="Brawling" id="brawling_label">
-                Brawling:<input type="number" id="brawling" min="0" max="12">
+                Brawling:   <input type="number" id="brawling" min="0" max="12" value="0">
             </label>
             <label for="climbing" id="climbing_label">
-                Climbing:<input type="number" id="climbing" min="0" max="12">
+                Climbing:   <input type="number" id="climbing" min="0" max="12" value="0">
             </label>
             <label for="dodge" id="dodge_label">
-                Dodge:<input type="number" id="dodge" min="0" max="12">
+                Dodge:  <input type="number" id="dodge" min="0" max="12" value="0">
             </label>
             <label for="exotics" id="exotics_label">
-                Exotics:<input type="number" id="exotics" min="0" max="12">
+                Exotics:    <input type="number" id="exotics" min="0" max="12" value="0">
             </label>
             <label for="firearms" id="firearms_label">
-                Firearms:<input type="number" id="firearms" min="0" max="12">
+                Firearms:   <input type="number" id="firearms" min="0" max="12" value="0">
             </label>
             <label for="heavy_weapons" id="heavy_weapons_label">
-                Heavy Weapons:<input type="number" id="heavy_weapons" min="0" max="12">
+                Heavy Weapons:  <input type="number" id="heavy_weapons" min="0" max="12" value="0">
             </label>
             <label for="horse_riding" id="horse_riding_label">
-                Horse Riding:<input type="number" id="horse_riding" min="0" max="12">
+                Horse Riding:   <input type="number" id="horse_riding" min="0" max="12" value="0">
             </label>
             <label for="polearms" id="polearms_label">
-                Polearms:<input type="number" id="polearms" min="0" max="12">
+                Polearms:   <input type="number" id="polearms" min="0" max="12" value="0">
             </label>
             <label for="piloting" id="piloting_label">
-                Piloting:<input type="number" id="piloting" min="0" max="12">
+                Piloting:   <input type="number" id="piloting" min="0" max="12" value="0">
             </label>
             <label for="small_blades" id="small_blades_label">
-                Small Blades:<input type="number" id="small_blades" min="0" max="12">
+                Small Blades:   <input type="number" id="small_blades" min="0" max="12" value="0">
             </label>
             <label for="stealth" id="stealth_label">
-                Stealth:<input type="number" id="stealth" min="0" max="12">
+                Stealth:    <input type="number" id="stealth" min="0" max="12" value="0">
             </label>
             <label for="swords" id="swords_label">
-                Swords:<input type="number" id="swords" min="0" max="12">
+                Swords: <input type="number" id="swords" min="0" max="12" value="0">
             </label>
             <label for="unarmed" id="unarmed_label">
-                Unarmed:<input type="number" id="unarmed" min="0" max="12">
+                Unarmed:    <input type="number" id="unarmed" min="0" max="12" value="0">
             </label>
-            <br>
-            <h4>INTELLECT</h4>
+            </div>
+            <div id="intellect_skills" class="skills">
+            <h4>INTELLECT </h4>
             <label for ="appraisal" id="appraisal_label">
-                Appraisal:<input type="number" id="appraisal" min="0" max="12">
+                Appraisal:  <input type="number" id="appraisal" min="0" max="12" value="0">
             </label>
             <label for ="artistry" id="artistry_label">
-                Artistry:<input type="number" id="artistry" min="0" max="12">
+                Artistry:   <input type="number" id="artistry" min="0" max="12" value="0">
             </label>
             <label for ="awareness" id="awareness_label">
-                Awareness:<input type="number" id="awareness" min="0" max="12">
+                Awareness:  <input type="number" id="awareness" min="0" max="12" value="0">
             </label>
             <label for ="blacksmithing" id="blacksmiting_label">
-                Blacksmiting:<input type="number" id="blacksmiting" min="0" max="12">
+                Blacksmiting:   <input type="number" id="blacksmiting" min="0" max="12" value="0">
             </label>
             <label for ="calligraphy" id="calligraphy_label">
-                Calligraphy:<input type="number" id="calligraphy" min="0" max="12">
+                Calligraphy:    <input type="number" id="calligraphy" min="0" max="12" value="0">
             </label>
             <label for ="crafting" id="crafting_label">
-               Crafting:<input type="number" id="crafting" min="0" max="12">
+               Crafting:    <input type="number" id="crafting" min="0" max="12" value="0">
             </label>
             <label for ="disguise" id="disguise_label">
-                Disguise:<input type="number" id="disguise" min="0" max="12">
+                Disguise:   <input type="number" id="disguise" min="0" max="12" value="0">
             </label>
             <label for ="explosives" id="explosives_label">
-                Explosives:<input type="number" id="explosives" min="0" max="12">
+                Explosives: <input type="number" id="explosives" min="0" max="12" value="0">
             </label>
             <label for ="history" id="history_label">
-                History:<input type="number" id="history" min="0" max="12">
+                History:    <input type="number" id="history" min="0" max="12" value="0">
             </label>
             <label for ="insight" id="insight_label">
-                Insight:<input type="number" id="insight" min="0" max="12">
+                Insight:    <input type="number" id="insight" min="0" max="12" value="0">
             </label>
             <label for ="languages1" id="languages1_label">
-                Language 1:<input type="number" id="languages1" min="0" max="12">
+                Language 1: <input type="number" id="languages1" min="0" max="12" value="0">
             </label>
             <label for ="languages2" id="languages2_label">
-                Language 2:<input type="number" id="languages2" min="0" max="12">
+                Language 2: <input type="number" id="languages2" min="0" max="12" value="0">
             </label>
             <label for ="languages3" id="languages3_label">
-                Language 3:<input type="number" id="languages3" min="0" max="12">
+                Language 3: <input type="number" id="languages3" min="0" max="12" value="0">
             </label>
             <label for ="magic" id="magic_label">
-                Magic:<input type="number" id="magic" min="0" max="12">
+                Magic:  <input type="number" id="magic" min="0" max="12" value="0">
             </label>
             <label for ="medicine" id="medicine_label">
-                Medicine:<input type="number" id="medicine" min="0" max="12">
+                Medicine:   <input type="number" id="medicine" min="0" max="12" value="0">
             </label>
             <label for ="navigation" id="navigation_label">
-                Navigation:<input type="number" id="navigation" min="0" max="12">
+                Navigation: <input type="number" id="navigation" min="0" max="12" value="0">
             </label>
             <label for ="persuade" id="persuade_label">
-                Persuade:<input type="number" id="persuade" min="0" max="12">
+                Persuade:   <input type="number" id="persuade" min="0" max="12" value="0">
             </label>
             <label for ="play_instrument1" id="play_instrument1_label">
-                Play Instrument 1:<input type="number" id="play_instrument1" min="0" max="12">
+                Play Instrument 1:  <input type="number" id="play_instrument1" min="0" max="12" value="0">
             </label>
             <label for ="play_instrument2" id="play_instrument2_label">
-                Play Instrument 2:<input type="number" id="play_instrument2" min="0" max="12">
+                Play Instrument 2:  <input type="number" id="play_instrument2" min="0" max="12" value="0">
             </label>
             <label for ="play_instrument3" id="play_instrument3_label">
-                Play Instrument 3:<input type="number" id="play_instrument3" min="0" max="12">
+                Play Instrument 3:  <input type="number" id="play_instrument3" min="0" max="12" value="0">
             </label>
             <label for ="religion" id="religion_label">
-                Religion:<input type="number" id="religion" min="0" max="12">
+                Religion:   <input type="number" id="religion" min="0" max="12" value="0">
             </label>
             <label for ="specialty_knowledge1" id="specialty_knowledge1_label">
-                Specialty Knowledge 1:<input type="number" id="specialty_knowledge1" min="0" max="12">
+                Specialty Knowledge 1:  <input type="number" id="specialty_knowledge1" min="0" max="12" value="0">
             </label>
             <label for ="specialty_knowledge2" id="specialty_knowledge2_label">
-                Specialty Knowledge 2:<input type="number" id="specialty_knowledge2" min="0" max="12">
+                Specialty Knowledge 2:  <input type="number" id="specialty_knowledge2" min="0" max="12" value="0">
             </label>
             <label for ="specialty_knowledge3" id="specialty_knowledge3_label">
-                Specialty Knowledge 3:<input type="number" id="specialty_knowledge3" min="0" max="12">
+                Specialty Knowledge 3:  <input type="number" id="specialty_knowledge3" min="0" max="12" value="0">
             </label>
             <label for ="tracking" id="tracking_label">
-                Tracking:<input type="number" id="tracking" min="0" max="12">
+                Tracking:   <input type="number" id="tracking" min="0" max="12" value="0">
             </label>
-            <br>
-            <h4>WILLPOWER</h4>
+            </div>
+            <div id="willpower_skills" class="skills">
+            <h4>WILLPOWER </h4>
             <label for ="leadership" id="leadership_label">
-                Leadership:<input type="number" id="leadership" min="0" max="12">
+                Leadership: <input type="number" id="leadership" min="0" max="12" value="0">
             </label>
             <label for ="resist_charms" id="resist_charms_label">
-                Resist Charms:<input type="number" id="resist_charms" min="0" max="12">
+                Resist Charms:  <input type="number" id="resist_charms" min="0" max="12" value="0">
             </label>
             <label for ="resist_fear" id="resist_fear_label">
-                Resist Fear:<input type="number" id="resist_fear" min="0" max="12">
+                Resist Fear:    <input type="number" id="resist_fear" min="0" max="12" value="0">
             </label>
             <label for ="resist_torture" id="resist_torture_label">
-                Resist Torture:<input type="number" id="resist_torture" min="0" max="12">
+                Resist Torture: <input type="number" id="resist_torture" min="0" max="12" value="0">
             </label>
             <label for ="threaten" id="threaten_label">
-                Threaten:<input type="number" id="threaten" min="0" max="12">
+                Threaten:   <input type="number" id="threaten" min="0" max="12" value="0">
             </label>
-            <br>
-            <h4>ALLURE</h4>
+            </div>
+            <div id="allure_skills" class="skills">
+            <h4>ALLURE </h4>
             <label for ="charm" id="char_label">
-                Charm:<input type="number" id="charm" min="0" max="12">
+                Charm:  <input type="number" id="charm" min="0" max="12" value="0">
             </label>
             <label for ="lie" id="lie_label">
-                Lie:<input type="number" id="lie" min="0" max="12">
+                Lie:    <input type="number" id="lie" min="0" max="12" value="0">
             </label>
             <label for ="poetry" id="poetry_label">
-                Poetry:<input type="number" id="poetry" min="0" max="12">
+                Poetry: <input type="number" id="poetry" min="0" max="12" value="0">
             </label>
             <label for ="personal_grooming" id="personal_grooming_label">
-                Personal Grooming:<input type="number" id="personal_grooming" min="0" max="12">
+                Personal Grooming:  <input type="number" id="personal_grooming" min="0" max="12" value="0">
             </label>
             <label for ="sing" id="sing_label">
-                Sing:<input type="number" id="sing" min="0" max="12">
+                Sing:   <input type="number" id="sing" min="0" max="12" value="0">
             </label>
             <label for ="theatre" id="theatre_label">
-                Theatre:<input type="number" id="theatre" min="0" max="12">
+                Theatre:    <input type="number" id="theatre" min="0" max="12" value="0">
             </label>
             <label for ="wardrobe" id="wardrobe_label">
-                Wardrobe:<input type="number" id="wardrobe" min="0" max="12">
+                Wardrobe:   <input type="number" id="wardrobe" min="0" max="12" value="0">
             </label>
+            </div>
+            </div>
         </div>
         <div>
             <h2>Lifepath and Life Events</h2>
@@ -242,6 +252,12 @@
             <button id="genLifeEvents">Generate Life Events</button>
             <ul id="lifeevents"></ul>
         </div>
+        <div>
+            <h2>Export</h2>
+            <button id="copyToClipboard">Copy to Clipboard</button>
+            <button id="saveAsPDF">Save as PDF (Coming Soon)</button>
+        </div>
+        <br>
         <script src="musashi.js"></script>
     </body>
 </html>
