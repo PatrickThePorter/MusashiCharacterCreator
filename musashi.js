@@ -442,6 +442,92 @@ const EnemyMotive = [
     "They caused you an injury."
 ]
 
+const PassiveAbilities = [
+    ["The Flow of War", 
+        "When a Samurai kills a character in combat, they get a flow point, up to 5 flow points. Instead of spending an action points, the Samurai can instead use an equal number of flow points. The Samurai loses all Flow points at the end of combat."],
+    ["Adrenaline", 
+        "Whenever a Mercenary is in Combat, they gain a bonus to their Block and Dodge, equal to how many enemies are within 10 meters, up to a maximum of 5."],
+    ["Shadow Stride",
+        "While a Shinobi is hidden from sight, they gain a bonus to their movement speed equal to half their reflex."],
+    ["Ordained Faith",
+        "When an allied character enters the Dying state within 10 meters of the Priest, they receive an extra 2 turns on their countdown."],
+    ["Unarmoured Defenses",
+        "While the Warrior Monk is not wearing armour, they have a +2 to all dodge or block checks"],
+    ["Insider Knowledge",
+        "Merchants have intimate knowledge of their trade. the merchant gains a +5 While making an appraisal check on objects that relate to their trade of choice."],
+    ["Captivating Presence",
+        "While making a charm, Sing, Theatre, or play instrument check, all onlookers have a -5 on awareness checks to perceive anything other than you."],
+    ["Tally Ho!",
+        "When the Pirate takes the load action, it costs 1 less action point. In addition, Black Powder weapons only suffer a -1 instead of a -2 accuracy penalty."],
+    ["Wounding Shot",
+        "When the Hunter hits a character with a ranged attack, they only have to exceed half the target’s might in order to inflict an injury."],
+    ["Studious",
+        "After studying knowledge from written sources for 2 hours, the Scholar remembers all of it for the next week. The scholar can change what they’ve memorized by studying another text, and they will then memorize it for a week."]
+]
+
+const PassiveAbilitesClasses = new Map(
+    [
+        ["samurai", PassiveAbilities[0]],
+        ["mercenary", PassiveAbilities[1]],
+        ["shinobi", PassiveAbilities[2]],
+        ["priest", PassiveAbilities[3]],
+        ["warriormonk", PassiveAbilities[4]],
+        ["merchant", PassiveAbilities[5]],
+        ["performer", PassiveAbilities[6]],
+        ["pirate", PassiveAbilities[7]],
+        ["hunter", PassiveAbilities[8]],
+        ["scholar", PassiveAbilities[9]]
+    ]
+)
+
+const ActiveAbilities = [
+    ["Rallying Cry",
+        "The Samurai lets loose a Rallying cry. The samurai loses all Flow points they’ve accumulated, and all their allies gain Flow points equal to the amount lost. The samurai also gains a bonus to Dodge, Block and attack equal to the lost Flow point for the rest of the encounter. This ability can only be used once per combat."
+    ],
+    ["Adrenaline Rush",
+        "The Mercenary’s adrenaline reaches an all time high. The Mercenary may activate their adrenaline rush, gaining adrenaline points equal to their Might. Whenever the Mercenary takes damage, they may instead sacrifice an equal number of Adrenaline points instead of Hit Points. The warrior can only use this ability once per combat."
+    ],
+    ["Marked For Death",
+        "The Shinobi selects a target while hidden. When they make an attack against the target, they gain a +5 to hit, and they deal an 5 extra damage but when they attack, they reveal themselves."
+    ],
+    ["Commune",
+        "The Priest enters a meditative state. While in this state, they open themselves up to the spirit world around them. They gain a +5 awareness on checks for supernatural phenomenon, and they can sense spirits around them, within 3 kilometers, though their precise locations, and the type of spirit are unknown. This ability can only be used once per day."
+    ],
+    ["Fighting Trance",
+        "The Monk enters a nearly meditative state during combat. Until combat ends, whenever the Monk Succeeds on a Dodge or block check, they can make a Counterattack reaction for free, once per turn."
+    ],
+    ["Art of the Deal",
+        "The Merchant starts to spread word of how good their wares are. During a period of 6 hours, the Merchant makes a Charm roll, and consult below 10 or lower: a crowd of D6+3 people have gathered to see what you’ve got. 11-15 2D6+3 people have gathered. 16-20 3D6+3 people have gathered. 21-29 4D6+3 people have gathered. 30 or higher the entire town has gathered to see your wares. You can make a charm roll afterwards to see how many people have been won over"
+    ],
+    ["Enrapturing Performance",
+        "The Performer makes an incredible performance, that would have the emperor shed a tear. They automatically succeed on their sing, Theatre, or Play Instrument check, and for the next two days after the performance, all charm checks made by the performer have a +5. This ability can only be used once a week."
+    ],
+    ["Part of the Ship, Part of the Crew!",
+        "A good captain always takes care of the crew. When this ability is activated, all allies within 5m of the captain gain a +2 to all weapons checks. in addition, the spot reaction can be taken for free once per turn, and the Help and Give Aid actions become Simple instead of complex."
+    ],
+    ["Let the Hunt Begin",
+        "The Hunter selects a target within 20m. The Hunter and their allies gain a +3 on attacks against them, and their attacks deal an extra 2 damage."
+    ],
+    ["Knowledge Retention",
+        "While the Scholar has a text memorized, they gain the respective skill for the duration. The skill can be up to a +3 depending on the text and cannot be a skill they already possess."
+    ]
+]
+
+const ActiveAbilitiesClasses = new Map(
+    [
+        ["samurai", ActiveAbilities[0]],
+        ["mercenary", ActiveAbilities[1]],
+        ["shinobi", ActiveAbilities[2]],
+        ["priest", ActiveAbilities[3]],
+        ["warriormonk", ActiveAbilities[4]],
+        ["merchant", ActiveAbilities[5]],
+        ["performer", ActiveAbilities[6]],
+        ["pirate", ActiveAbilities[7]],
+        ["hunter", ActiveAbilities[8]],
+        ["scholar", ActiveAbilities[9]]
+    ]
+)
+
 let currentClassSkills = ["", ""]
 
 let charRomanceType = RomanceType.FLING;
