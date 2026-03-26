@@ -5,9 +5,11 @@
     </head>
     <body>
         <style>
-            body {background-color:lightyellow}
+            body {background-color:lightyellow; align-items: center; text-align: center;}
             #skills {display:grid; grid-template-columns:repeat(5, 1fr); gap:1px}
             .skills {display:flex;flex-direction: column;gap:10px}
+            #lifepaths {text-align: left; padding-left: 35%;}
+            #lifeevents {text-align: left; padding-left: 35%}
         </style>
         <div id="about" class="red">
             <h1>Myths of Musashi Character Creator</h1>
@@ -244,7 +246,7 @@
             </div>
             </div>
         </div>
-        <div>
+        <div id="lifepathDiv">
             <h2>Lifepath and Life Events</h2>
             <h3>Lifepath</h3>
             <button id="genLifepath">Generate Lifepath</button>
@@ -263,7 +265,18 @@
                 <p id="active_ability_text"></p>
             </div>
         </div>
-        <div>
+        <div id="equipment">
+            <h2>Equipment</h2>
+            <p>You get some starting equipment based on your class.</p>
+            <ul id="equipmentList"></ul>
+            <div id="addEquipment">
+                <h3>Add extra equipment</h3>
+            </div>
+            <div id="gold">
+                Gold: <input type="number" id="goldCount" min="0" value="0" disabled="true">
+            </div>
+        </div>
+        <div id="exportOptions">
             <h2>Export</h2>
             <button id="copyToClipboard">Copy to Clipboard</button>
             <button id="saveAsPDF">Save as PDF (Coming Soon)</button>
