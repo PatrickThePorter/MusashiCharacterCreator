@@ -5,6 +5,7 @@ const lifeEventGenButton = document.getElementById('genLifeEvents')
 const lifePathGenButton = document.getElementById('genLifepath')
 const charAgeInput = document.getElementById('age')
 const exportToClipboardBtn = document.getElementById('copyToClipboard')
+const asexualCheck = document.getElementById('asexual')
 
 const charName = document.getElementById('name')
 
@@ -538,8 +539,8 @@ classSelector.addEventListener("change", () => {
     {
         let prevousSkill1 = document.getElementById(currentClassSkills[0])
         let prevousSkill2 = document.getElementById(currentClassSkills[1])
-        prevousSkill1.value = prevousSkill1.value - 5
-        prevousSkill2.value = prevousSkill2.value - 5
+        if (prevousSkill1 != null) {prevousSkill1.value = prevousSkill1.value - 5}
+        if (prevousSkill2 != null) {prevousSkill2.value = prevousSkill2.value - 5}
     }
     let skill1 = ClassSkills[classSelector.value][0].toLowerCase()
     let skill2 = ClassSkills[classSelector.value][1].toLowerCase()
@@ -549,6 +550,8 @@ classSelector.addEventListener("change", () => {
     let skillDOM2 = document.getElementById(skill2)
     skillDOM1.value = 5;
     skillDOM2.value = 5;
+
+    setAbilities(classSelector.value.toLowerCase())
 });
 
 lifeEventGenButton.onclick = (event) =>
@@ -569,6 +572,11 @@ exportToClipboardBtn.onclick = (event) =>
 {
     event.preventDefault()
     exportToClipboard()
+}
+
+asexualCheck.onclick = (event) =>
+{
+    isAsexual = asexualCheck.checked
 }
 
 function pickRandomFromArray(arr)
@@ -823,6 +831,15 @@ function getLifepathAsString()
 function getLifeEventsAsString()
 {
     return lifeEventData.join("\n")
+}
+
+function setAbilities(charClass)
+{
+    console.log(PassiveAbilitesClasses.get(charClass))
+    document.getElementById('passive_name').innerText = PassiveAbilitesClasses.get(charClass)[0]
+    document.getElementById('passive_ability_text').innerText = PassiveAbilitesClasses.get(charClass)[1]
+    document.getElementById('active_name').innerText = ActiveAbilitiesClasses.get(charClass)[0]
+    document.getElementById('active_ability_text').innerText = ActiveAbilitiesClasses.get(charClass)[1]
 }
 
 function exportToClipboard()
