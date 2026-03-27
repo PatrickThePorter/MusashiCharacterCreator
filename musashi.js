@@ -95,7 +95,7 @@ const skills = {
 }
 
 const ClassSkills = {
-    Samurai: ["Swords","Leadership"],
+    Samurai: ["swords","leadership"],
     Mercenary: ["Polearms","Strength Feat"],
     Shinobi: ["Stealth","Disguise"],
     Priest: ["Religion","Medicine"],
@@ -529,14 +529,15 @@ const ActiveAbilitiesClasses = new Map(
     ]
 )
 
-let currentClassSkills = ["", ""]
+let currentClassSkills = new Array(["", ""])
 
 let charRomanceType = RomanceType.FLING;
 let isAsexual = false
 
 classSelector.addEventListener("change", () => {
-    if (currentClassSkills != ["",""])
+    /*if (currentClassSkills)
     {
+        console.log(currentClassSkills[0])
         let prevousSkill1 = document.getElementById(currentClassSkills[0])
         let prevousSkill2 = document.getElementById(currentClassSkills[1])
         if (prevousSkill1 != null) {prevousSkill1.value = prevousSkill1.value - 5}
@@ -551,7 +552,7 @@ classSelector.addEventListener("change", () => {
     skillDOM1.value = 5;
     skillDOM2.value = 5;
 
-    setAbilities(classSelector.value.toLowerCase())
+    setAbilities(classSelector.value.toLowerCase())*/
 });
 
 lifeEventGenButton.onclick = (event) =>
@@ -593,6 +594,53 @@ function rollDice(diceNum, numOfDice, mod)
     }
     result += mod;
     return result;
+}
+
+function returnClassStringAsObj(className)
+{
+    // I hate this!
+    switch(className)
+    {
+        case "samurai":
+            return classList.Samurai;
+            break;
+        case "mercenary":
+            return classList.Mercenary;
+            break;
+        case "shinobi":
+            return classList.Shinobi;
+            break;
+        case "warriormonk":
+            return classList.WarriorMonk;
+            break;
+        case "priest":
+            return classList.Priest;
+            break;
+        case "performer":
+            return classList.Performer;
+            break;
+        case "merchant":
+            return classList.Merchant;
+            break;
+        case "hunter":
+            return classList.Hunter;
+            break;
+        case "pirate":
+            return classList.Pirate;
+            break;
+        case "scholar":
+            return classList.Scholar;
+            break;
+        default:
+            console.error("Error: Invalid class string. Did you forget to make it all lowercase?");
+            break;
+    }
+}
+
+function addToSkill(skill, mod)
+{
+    let docSkill = document.getElementById(skill)
+    docSkill.value = Number(docSkill.value + mod)
 }
 
 function majorLifeEventString()
@@ -705,6 +753,9 @@ function classSelectCreateList()
         option.textContent = cls;
         classSelect.appendChild(option);
     });
+    console.log(classSelector.value)
+    addToSkill(returnClassStringAsObj(toString(classSelector.value).toLowerCase())[0], 5)
+    addToSkill(returnClassStringAsObj(toString(classSelector.value).toLowerCase())[1], 5)
 }
 
 function createLifepath(age = 0)
