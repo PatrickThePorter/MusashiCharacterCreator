@@ -1,3 +1,5 @@
+import { weaponMods } from "./weapons.js"
+
 const classSelector = document.getElementById('charClassSelect')
 const lifepathList = document.getElementById('lifepaths')
 const lifeEventList = document.getElementById('lifeevents')
@@ -94,18 +96,18 @@ const skills = {
     }
 }
 
-const ClassSkills = {
-    Samurai: ["swords","leadership"],
-    Mercenary: ["Polearms","Strength Feat"],
-    Shinobi: ["Stealth","Disguise"],
-    Priest: ["Religion","Medicine"],
-    WarriorMonk: ["Religion","Exotics"],
-    Merchant: ["Appraisal","Lie"],
-    Performer: ["Theatre","Charm"],
-    Pirate: ["Navigation","Firearms"],
-    Hunter: ["Nature","Archery"],
-    Scholar: ["Calligraphy","History"]
-}
+const ClassSkills = new Map([
+    ["samurai", ["swords","leadership"]],
+    ["mercenary", ["polearms","strength_feat"]],
+    ["shinobi", ["stealth","disguise"]],
+    ["priest", ["religion","medicine"]],
+    ["warriormonk", ["religion","exotics"]],
+    ["merchant", ["appraisal","lie"]],
+    ["performer", ["theatre","charm"]],
+    ["pirate", ["navigation","firearms"]],
+    ["hunter", ["nature","archery"]],
+    ["scholar", ["calligraphy","history"]]
+])
 
 const LifepathFamilyBackground = [
     "Born to a family of farmers.",
@@ -529,7 +531,7 @@ const ActiveAbilitiesClasses = new Map(
     ]
 )
 
-let currentClassSkills = new Array(["", ""])
+let currentClassSkills = new Array("", "")
 
 let charRomanceType = RomanceType.FLING;
 let isAsexual = false
@@ -553,6 +555,8 @@ classSelector.addEventListener("change", () => {
     skillDOM2.value = 5;
 
     setAbilities(classSelector.value.toLowerCase())*/
+
+    addClassSkillValues()
 });
 
 lifeEventGenButton.onclick = (event) =>
@@ -598,8 +602,9 @@ function rollDice(diceNum, numOfDice, mod)
 
 function returnClassStringAsObj(className)
 {
+    const lowerCaseClassName = className.toLowerCase();
     // I hate this!
-    switch(className)
+    switch(lowerCaseClassName)
     {
         case "samurai":
             return classList.Samurai;
@@ -640,7 +645,7 @@ function returnClassStringAsObj(className)
 function addToSkill(skill, mod)
 {
     let docSkill = document.getElementById(skill)
-    docSkill.value = Number(docSkill.value + mod)
+    docSkill.value = Math.min(Number(docSkill.value) + mod, 0)
 }
 
 function majorLifeEventString()
@@ -753,9 +758,25 @@ function classSelectCreateList()
         option.textContent = cls;
         classSelect.appendChild(option);
     });
-    console.log(classSelector.value)
-    addToSkill(returnClassStringAsObj(toString(classSelector.value).toLowerCase())[0], 5)
-    addToSkill(returnClassStringAsObj(toString(classSelector.value).toLowerCase())[1], 5)
+    addClassSkillValues()
+}
+
+function addClassSkillValues()
+{
+    console.log(currentClassSkills.at(0))
+    console.log(currentClassSkills[0])
+    if (currentClassSkills[0] !== "")
+    {
+        addToSkill(currentClassSkills[0], -5)
+        addToSkill(currentClassSkills[1], -5)
+    }
+    const lowerCaseClass = classSelector.value.toLowerCase()
+    const firstClassSkill = ClassSkills.get(lowerCaseClass)[0]
+    const secondClassSkill = ClassSkills.get(lowerCaseClass)[1]
+    currentClassSkills[0] = firstClassSkill;
+    currentClassSkills[1] = secondClassSkill;
+    addToSkill(firstClassSkill, 5)
+    addToSkill(secondClassSkill, 5)
 }
 
 function createLifepath(age = 0)

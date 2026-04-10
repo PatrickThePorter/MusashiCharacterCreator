@@ -1,4 +1,4 @@
-export default {
+export const weapons = {
     tanto: {
         name: "Tanto (Knife)",
         attributes: ["One Handed", "Quick", "Piercing"],
@@ -386,7 +386,7 @@ export default {
     }
 }
 
-export const WeaponMods = new Map([
+export const weaponMods = new Map([
     ["One Handed", "The weapon can be held with only one hand."],
     ["Two Handed", "The weapon must be held with two hands."],
     ["Concussive", "Characters hit with an attack from a concussive weapon gain the Concussed effect."],
@@ -396,5 +396,8 @@ export const WeaponMods = new Map([
     ["Sweeping", "Characters using sweeping weapons can choose to make a sweeping attack instead of a regular attack. When making a sweeping attack, the character can choose two targets instead of one, while taking a -2 penalty to hit. The roll to hit is performed once, and damage rolls are done seperately."],
     ["Thrusting", "Characters using thrusting weapons can choose to make a thrusting attack instead of a regular attack. When kaking a thrusting attack, the character deals an extra 4 damage, while taking a -2 penalty to hit."],
     ["Piercing", "Characters using piercing weapons ignore up to 2 points of armour when attacking."],
-    ["Black Powder", "Black powder weapons are quite clunky to use, but the results speak for themselves. In order to use a Black Powder weapon, a character must have first used the Load action. In addition, Black powder weapons suffer a -2 to hit for every 10 meters from the user, beyond half of its range. Black powder weapons are so small and fast moving that Block reactions cannot be taken against them."]
+    ["Black Powder", "Black powder weapons are quite clunky to use, but the results speak for themselves. In order to use a Black Powder weapon, a character must have first used the Load action. In addition, Black powder weapons suffer a -2 to hit for every 10 meters from the user, beyond half of its range. Black powder weapons are so small and fast moving that Block reactions cannot be taken against them."],
+    ["Binding", "Binding weapons are designed to trap and bind the opponent's weapons. Bind checks made with a Binding Weapon gain a +2 bonus."],
+    ["Heavy", "Heavy weapons are unwieldy and cumbersome. Actions and reactions with Heavy Weapons cost 1 additional action point to use."]
 ])
+
