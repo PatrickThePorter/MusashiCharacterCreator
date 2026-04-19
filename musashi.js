@@ -1,3 +1,6 @@
+import { weapons } from "./weapons.js"
+import { weaponMods } from "./weapons.js"
+
 const classSelector = document.getElementById('charClassSelect')
 const lifepathList = document.getElementById('lifepaths')
 const lifeEventList = document.getElementById('lifeevents')
@@ -5,11 +8,19 @@ const lifeEventGenButton = document.getElementById('genLifeEvents')
 const lifePathGenButton = document.getElementById('genLifepath')
 const charAgeInput = document.getElementById('age')
 const exportToClipboardBtn = document.getElementById('copyToClipboard')
+const asexualCheck = document.getElementById('asexual')
+
+const equipmentSelector = document.getElementById('selectEquipment')
+const equipmentList = document.getElementById('equipmentList')
+const addEquipmentButton = document.getElementById('addEquipmentButton')
+const clearEquipmentButton = document.getElementById('clearEquipmentButton')
 
 const charName = document.getElementById('name')
 
 let lifepathData = []
 let lifeEventData = []
+
+let equipmentData = []
 
 const classList = {
     Samurai: "Samurai",
@@ -93,18 +104,18 @@ const skills = {
     }
 }
 
-const ClassSkills = {
-    Samurai: ["Swords","Leadership"],
-    Mercenary: ["Polearms","Strength Feat"],
-    Shinobi: ["Stealth","Disguise"],
-    Priest: ["Religion","Medicine"],
-    WarriorMonk: ["Religion","Exotics"],
-    Merchant: ["Appraisal","Lie"],
-    Performer: ["Theatre","Charm"],
-    Pirate: ["Navigation","Firearms"],
-    Hunter: ["Nature","Archery"],
-    Scholar: ["Calligraphy","History"]
-}
+const ClassSkills = new Map([
+    ["samurai", ["swords","leadership"]],
+    ["mercenary", ["polearms","strength_feat"]],
+    ["shinobi", ["stealth","disguise"]],
+    ["priest", ["religion","medicine"]],
+    ["warriormonk", ["religion","exotics"]],
+    ["merchant", ["appraisal","lie"]],
+    ["performer", ["theatre","charm"]],
+    ["pirate", ["navigation","firearms"]],
+    ["hunter", ["nature","archery"]],
+    ["scholar", ["calligraphy","history"]]
+])
 
 const LifepathFamilyBackground = [
     "Born to a family of farmers.",
@@ -442,18 +453,105 @@ const EnemyMotive = [
     "They caused you an injury."
 ]
 
-let currentClassSkills = ["", ""]
+const PassiveAbilities = [
+    ["The Flow of War", 
+        "When a Samurai kills a character in combat, they get a flow point, up to 5 flow points. Instead of spending an action points, the Samurai can instead use an equal number of flow points. The Samurai loses all Flow points at the end of combat."],
+    ["Adrenaline", 
+        "Whenever a Mercenary is in Combat, they gain a bonus to their Block and Dodge, equal to how many enemies are within 10 meters, up to a maximum of 5."],
+    ["Shadow Stride",
+        "While a Shinobi is hidden from sight, they gain a bonus to their movement speed equal to half their reflex."],
+    ["Ordained Faith",
+        "When an allied character enters the Dying state within 10 meters of the Priest, they receive an extra 2 turns on their countdown."],
+    ["Unarmoured Defenses",
+        "While the Warrior Monk is not wearing armour, they have a +2 to all dodge or block checks"],
+    ["Insider Knowledge",
+        "Merchants have intimate knowledge of their trade. the merchant gains a +5 While making an appraisal check on objects that relate to their trade of choice."],
+    ["Captivating Presence",
+        "While making a charm, Sing, Theatre, or play instrument check, all onlookers have a -5 on awareness checks to perceive anything other than you."],
+    ["Tally Ho!",
+        "When the Pirate takes the load action, it costs 1 less action point. In addition, Black Powder weapons only suffer a -1 instead of a -2 accuracy penalty."],
+    ["Wounding Shot",
+        "When the Hunter hits a character with a ranged attack, they only have to exceed half the target’s might in order to inflict an injury."],
+    ["Studious",
+        "After studying knowledge from written sources for 2 hours, the Scholar remembers all of it for the next week. The scholar can change what they’ve memorized by studying another text, and they will then memorize it for a week."]
+]
+
+const PassiveAbilitesClasses = new Map(
+    [
+        ["samurai", PassiveAbilities[0]],
+        ["mercenary", PassiveAbilities[1]],
+        ["shinobi", PassiveAbilities[2]],
+        ["priest", PassiveAbilities[3]],
+        ["warriormonk", PassiveAbilities[4]],
+        ["merchant", PassiveAbilities[5]],
+        ["performer", PassiveAbilities[6]],
+        ["pirate", PassiveAbilities[7]],
+        ["hunter", PassiveAbilities[8]],
+        ["scholar", PassiveAbilities[9]]
+    ]
+)
+
+const ActiveAbilities = [
+    ["Rallying Cry",
+        "The Samurai lets loose a Rallying cry. The samurai loses all Flow points they’ve accumulated, and all their allies gain Flow points equal to the amount lost. The samurai also gains a bonus to Dodge, Block and attack equal to the lost Flow point for the rest of the encounter. This ability can only be used once per combat."
+    ],
+    ["Adrenaline Rush",
+        "The Mercenary’s adrenaline reaches an all time high. The Mercenary may activate their adrenaline rush, gaining adrenaline points equal to their Might. Whenever the Mercenary takes damage, they may instead sacrifice an equal number of Adrenaline points instead of Hit Points. The warrior can only use this ability once per combat."
+    ],
+    ["Marked For Death",
+        "The Shinobi selects a target while hidden. When they make an attack against the target, they gain a +5 to hit, and they deal an 5 extra damage but when they attack, they reveal themselves."
+    ],
+    ["Commune",
+        "The Priest enters a meditative state. While in this state, they open themselves up to the spirit world around them. They gain a +5 awareness on checks for supernatural phenomenon, and they can sense spirits around them, within 3 kilometers, though their precise locations, and the type of spirit are unknown. This ability can only be used once per day."
+    ],
+    ["Fighting Trance",
+        "The Monk enters a nearly meditative state during combat. Until combat ends, whenever the Monk Succeeds on a Dodge or block check, they can make a Counterattack reaction for free, once per turn."
+    ],
+    ["Art of the Deal",
+        "The Merchant starts to spread word of how good their wares are. During a period of 6 hours, the Merchant makes a Charm roll, and consult below 10 or lower: a crowd of D6+3 people have gathered to see what you’ve got. 11-15 2D6+3 people have gathered. 16-20 3D6+3 people have gathered. 21-29 4D6+3 people have gathered. 30 or higher the entire town has gathered to see your wares. You can make a charm roll afterwards to see how many people have been won over"
+    ],
+    ["Enrapturing Performance",
+        "The Performer makes an incredible performance, that would have the emperor shed a tear. They automatically succeed on their sing, Theatre, or Play Instrument check, and for the next two days after the performance, all charm checks made by the performer have a +5. This ability can only be used once a week."
+    ],
+    ["Part of the Ship, Part of the Crew!",
+        "A good captain always takes care of the crew. When this ability is activated, all allies within 5m of the captain gain a +2 to all weapons checks. in addition, the spot reaction can be taken for free once per turn, and the Help and Give Aid actions become Simple instead of complex."
+    ],
+    ["Let the Hunt Begin",
+        "The Hunter selects a target within 20m. The Hunter and their allies gain a +3 on attacks against them, and their attacks deal an extra 2 damage."
+    ],
+    ["Knowledge Retention",
+        "While the Scholar has a text memorized, they gain the respective skill for the duration. The skill can be up to a +3 depending on the text and cannot be a skill they already possess."
+    ]
+]
+
+const ActiveAbilitiesClasses = new Map(
+    [
+        ["samurai", ActiveAbilities[0]],
+        ["mercenary", ActiveAbilities[1]],
+        ["shinobi", ActiveAbilities[2]],
+        ["priest", ActiveAbilities[3]],
+        ["warriormonk", ActiveAbilities[4]],
+        ["merchant", ActiveAbilities[5]],
+        ["performer", ActiveAbilities[6]],
+        ["pirate", ActiveAbilities[7]],
+        ["hunter", ActiveAbilities[8]],
+        ["scholar", ActiveAbilities[9]]
+    ]
+)
+
+let currentClassSkills = new Array("", "")
 
 let charRomanceType = RomanceType.FLING;
 let isAsexual = false
 
 classSelector.addEventListener("change", () => {
-    if (currentClassSkills != ["",""])
+    /*if (currentClassSkills)
     {
+        console.log(currentClassSkills[0])
         let prevousSkill1 = document.getElementById(currentClassSkills[0])
         let prevousSkill2 = document.getElementById(currentClassSkills[1])
-        prevousSkill1.value = prevousSkill1.value - 5
-        prevousSkill2.value = prevousSkill2.value - 5
+        if (prevousSkill1 != null) {prevousSkill1.value = prevousSkill1.value - 5}
+        if (prevousSkill2 != null) {prevousSkill2.value = prevousSkill2.value - 5}
     }
     let skill1 = ClassSkills[classSelector.value][0].toLowerCase()
     let skill2 = ClassSkills[classSelector.value][1].toLowerCase()
@@ -463,6 +561,10 @@ classSelector.addEventListener("change", () => {
     let skillDOM2 = document.getElementById(skill2)
     skillDOM1.value = 5;
     skillDOM2.value = 5;
+
+    setAbilities(classSelector.value.toLowerCase())*/
+
+    addClassSkillValues()
 });
 
 lifeEventGenButton.onclick = (event) =>
@@ -485,6 +587,23 @@ exportToClipboardBtn.onclick = (event) =>
     exportToClipboard()
 }
 
+asexualCheck.onclick = (event) =>
+{
+    isAsexual = asexualCheck.checked
+}
+
+addEquipmentButton.onclick = (event) =>
+{
+    event.preventDefault()
+    console.log(equipmentSelector.textContent)
+    addEquipmentToEquipmentList(equipmentSelector.value)
+}
+
+clearEquipmentButton.onclick = (event) =>
+{
+    clearEquipment()
+}
+
 function pickRandomFromArray(arr)
 {
     return arr[Math.floor(Math.random()*arr.length)];
@@ -499,6 +618,55 @@ function rollDice(diceNum, numOfDice, mod)
     }
     result += mod;
     return result;
+}
+
+function returnClassStringAsObj(className)
+{
+    const lowerCaseClassName = className.toLowerCase();
+    // I hate this!
+    switch(lowerCaseClassName)
+    {
+        case "samurai":
+            return classList.Samurai;
+            break;
+        case "mercenary":
+            return classList.Mercenary;
+            break;
+        case "shinobi":
+            return classList.Shinobi;
+            break;
+        case "warriormonk":
+            return classList.WarriorMonk;
+            break;
+        case "priest":
+            return classList.Priest;
+            break;
+        case "performer":
+            return classList.Performer;
+            break;
+        case "merchant":
+            return classList.Merchant;
+            break;
+        case "hunter":
+            return classList.Hunter;
+            break;
+        case "pirate":
+            return classList.Pirate;
+            break;
+        case "scholar":
+            return classList.Scholar;
+            break;
+        default:
+            console.error("Error: Invalid class string. Did you forget to make it all lowercase?");
+            break;
+    }
+}
+
+function addToSkill(skill, mod)
+{
+    let docSkill = document.getElementById(skill)
+    docSkill.value = Math.max(Number(docSkill.value) + mod, 0)
+    console.log("adding " + mod + " to " + skill);
 }
 
 function majorLifeEventString()
@@ -611,6 +779,88 @@ function classSelectCreateList()
         option.textContent = cls;
         classSelect.appendChild(option);
     });
+    addClassSkillValues()
+}
+
+function addEquipmentToDropdown()
+{
+    "use strict"
+    let equipmentSelect = document.getElementById("selectEquipment");
+    Object.entries(weapons).forEach(([key, weapon]) => {
+        const option = document.createElement("option")
+        option.value = key;
+        option.textContent = weapon.name;
+        console.log(option)
+        equipmentSelect.appendChild(option);
+    })
+}
+
+function addEquipmentToEquipmentList(equip)
+{
+    console.log(equip)
+    const theWeapon = weapons[equip]
+    let equipmentChar = theWeapon.name
+    equipmentChar += " | Attributes: "
+    for (let i = 0; i < weapons[equip].attributes.length; i++)
+    {
+        equipmentChar += theWeapon.attributes[i];
+        if (i !== theWeapon.attributes.length - 1) { equipmentChar += ", "}
+        else {equipmentChar += " "}
+    }
+    equipmentChar += " | Skill: " + theWeapon.skill
+    equipmentChar += " | AM: " + theWeapon.AM + " | BM: " + theWeapon.BM + " | DM: " + theWeapon.DM + " | "
+    // handle edge cases
+    switch(equip)
+    {
+        case "katana":
+            equipmentChar += "Damage: " + theWeapon.damage.diceNum + "d" + theWeapon.damage.oneHanded.diceType + " (One Handed), "
+            equipmentChar += theWeapon.damage.diceNum + "d" + theWeapon.damage.twoHanded.diceType + " (Two Handed) "
+            break;
+        case "kusariGama":
+            equipmentChar += "Damage: " + theWeapon.damage.diceNum + "d" + theWeapon.damage.damageChain.diceType + " (Chain), "
+            equipmentChar += theWeapon.damage.diceNum + "d" + theWeapon.damage.damageSickle.diceType + " (Sickle) "
+            break;
+        case "handMortar":
+            equipmentChar += "Damage: Varies "
+            break;
+        default:
+            equipmentChar += "Damage: " + theWeapon.damage.diceNum + "d" + theWeapon.damage.diceType;
+            if (theWeapon.damage.damageMod > 0) { equipmentChar += "+" + theWeapon.damage.damageMod}
+            equipmentChar += " "
+            break;
+    }
+    equipmentChar += " | Range: " + theWeapon.range + "m ";
+    equipmentChar += " | Cost: " + theWeapon.cost + " gold"
+    const li = document.createElement('li')
+    li.innerHTML = equipmentChar
+    equipmentList.appendChild(li);
+    equipmentData.push(equipmentChar)
+    return equipmentChar;
+}
+
+function clearEquipment()
+{
+    equipmentList.innerHTML = ""
+    equipmentData = []
+}
+
+function addClassSkillValues()
+{
+    console.log(currentClassSkills.at(0))
+    console.log(currentClassSkills[0])
+    if (currentClassSkills.at(0) !== "")
+    {
+        addToSkill(currentClassSkills[0], -5)
+        addToSkill(currentClassSkills[1], -5)
+    }
+    const lowerCaseClass = classSelector.value.toLowerCase()
+    const firstClassSkill = ClassSkills.get(lowerCaseClass)[0]
+    const secondClassSkill = ClassSkills.get(lowerCaseClass)[1]
+    currentClassSkills[0] = firstClassSkill;
+    currentClassSkills[1] = secondClassSkill;
+    console.log(currentClassSkills[0])
+    addToSkill(currentClassSkills[0], 5)
+    addToSkill(currentClassSkills[1], 5)
 }
 
 function createLifepath(age = 0)
@@ -739,6 +989,15 @@ function getLifeEventsAsString()
     return lifeEventData.join("\n")
 }
 
+function setAbilities(charClass)
+{
+    console.log(PassiveAbilitesClasses.get(charClass))
+    document.getElementById('passive_name').innerText = PassiveAbilitesClasses.get(charClass)[0]
+    document.getElementById('passive_ability_text').innerText = PassiveAbilitesClasses.get(charClass)[1]
+    document.getElementById('active_name').innerText = ActiveAbilitiesClasses.get(charClass)[0]
+    document.getElementById('active_ability_text').innerText = ActiveAbilitiesClasses.get(charClass)[1]
+}
+
 function exportToClipboard()
 {
     let characterClipboardText = ""
@@ -815,8 +1074,16 @@ function exportToClipboard()
     characterClipboardText += "\tTheatre: " + document.getElementById('theatre').value
     characterClipboardText += "\tWardrobe: " + document.getElementById('wardrobe').value
     
+    // LIFEPATH
     characterClipboardText += "\n\nLIFEPATH:\n" + getLifepathAsString()
     characterClipboardText += "\n\nLIFE EVENTS:\n" + getLifeEventsAsString()
+
+    // EQUIPMENT
+    characterClipboardText += "\n\nEQUIPMENT:\n"
+    for (let i = 0; i < equipmentData.length; i++)
+    {
+        characterClipboardText += "- " + equipmentData[i] +"\n";
+    }
 
     navigator.clipboard.writeText(characterClipboardText)
 }
@@ -825,5 +1092,6 @@ function init()
 {
     "use strict"
     classSelectCreateList()
+    addEquipmentToDropdown()
 }
 window.onload = init
