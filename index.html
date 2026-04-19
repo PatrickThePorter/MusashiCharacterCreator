@@ -8,12 +8,12 @@
             body {background-color:lightyellow; align-items: center; text-align: center;}
             #skills {display:grid; grid-template-columns:repeat(5, 1fr); gap:1px}
             .skills {display:flex;flex-direction: column;gap:10px}
-            #lifepaths {text-align: left; padding-left: 35%;} 
-            #lifeevents {text-align: left; padding-left: 35%}
+            .musashiList {text-align: left; padding-left: 35%}
+            .equipList {text-align: center; padding-left: 0; list-style-position: inside;}
         </style>
         <div id="about" class="red">
             <h1>Myths of Musashi Character Creator</h1>
-            <h4>Version 0.2.1</h4>
+            <h4>Version 0.3.0</h4>
             <p>
                 Welcome to the Myths of Musashi Character Creator. Use the controls below to create your Musashi character. Once completed,
                 you can export your character.
@@ -250,11 +250,11 @@
             <h2>Lifepath and Life Events</h2>
             <h3>Lifepath</h3>
             <button id="genLifepath">Generate Lifepath</button>
-            <ul id="lifepaths"></ul>
+            <ul id="lifepaths", class="musashiList"></ul>
             <h3>Life Events</h3>
             <input type="checkbox" id="asexual" switch><label>Disable Romance Life Events</label><br>
             <button id="genLifeEvents">Generate Life Events</button>
-            <ul id="lifeevents"></ul>
+            <ul id="lifeevents", class="musashiList"></ul>
         </div>
         <div id="class_abilities">
             <h2>Class Abilities</h2>
@@ -270,9 +270,15 @@
         <div id="equipment">
             <h2>Equipment</h2>
             <p>You get some starting equipment based on your class.</p>
-            <ul id="equipmentList"></ul>
             <div id="addEquipment">
                 <h3>Add extra equipment</h3>
+                <select id="selectEquipment"></select>
+                <br>
+                <button id="addEquipmentButton">Add Equipment</button>
+                <button id="clearEquipmentButton">Clear Equipment List</button>
+                <ul id="equipmentList", class="equipList"></ul>
+                <div id="equipmentPreview">
+                </div>
             </div>
             <div id="gold">
                 Gold: <input type="number" id="goldCount" min="0" value="0" disabled="true">

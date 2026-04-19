@@ -1,3 +1,4 @@
+import { weapons } from "./weapons.js"
 import { weaponMods } from "./weapons.js"
 
 const classSelector = document.getElementById('charClassSelect')
@@ -9,10 +10,17 @@ const charAgeInput = document.getElementById('age')
 const exportToClipboardBtn = document.getElementById('copyToClipboard')
 const asexualCheck = document.getElementById('asexual')
 
+const equipmentSelector = document.getElementById('selectEquipment')
+const equipmentList = document.getElementById('equipmentList')
+const addEquipmentButton = document.getElementById('addEquipmentButton')
+const clearEquipmentButton = document.getElementById('clearEquipmentButton')
+
 const charName = document.getElementById('name')
 
 let lifepathData = []
 let lifeEventData = []
+
+let equipmentData = []
 
 const classList = {
     Samurai: "Samurai",
@@ -584,6 +592,18 @@ asexualCheck.onclick = (event) =>
     isAsexual = asexualCheck.checked
 }
 
+addEquipmentButton.onclick = (event) =>
+{
+    event.preventDefault()
+    console.log(equipmentSelector.textContent)
+    addEquipmentToEquipmentList(equipmentSelector.value)
+}
+
+clearEquipmentButton.onclick = (event) =>
+{
+    clearEquipment()
+}
+
 function pickRandomFromArray(arr)
 {
     return arr[Math.floor(Math.random()*arr.length)];
@@ -645,7 +665,8 @@ function returnClassStringAsObj(className)
 function addToSkill(skill, mod)
 {
     let docSkill = document.getElementById(skill)
-    docSkill.value = Math.min(Number(docSkill.value) + mod, 0)
+    docSkill.value = Math.max(Number(docSkill.value) + mod, 0)
+    console.log("adding " + mod + " to " + skill);
 }
 
 function majorLifeEventString()
@@ -761,11 +782,73 @@ function classSelectCreateList()
     addClassSkillValues()
 }
 
+function addEquipmentToDropdown()
+{
+    "use strict"
+    let equipmentSelect = document.getElementById("selectEquipment");
+    Object.entries(weapons).forEach(([key, weapon]) => {
+        const option = document.createElement("option")
+        option.value = key;
+        option.textContent = weapon.name;
+        console.log(option)
+        equipmentSelect.appendChild(option);
+    })
+}
+
+function addEquipmentToEquipmentList(equip)
+{
+    console.log(equip)
+    const theWeapon = weapons[equip]
+    let equipmentChar = theWeapon.name
+    equipmentChar += " | Attributes: "
+    for (let i = 0; i < weapons[equip].attributes.length; i++)
+    {
+        equipmentChar += theWeapon.attributes[i];
+        if (i !== theWeapon.attributes.length - 1) { equipmentChar += ", "}
+        else {equipmentChar += " "}
+    }
+    equipmentChar += " | Skill: " + theWeapon.skill
+    equipmentChar += " | AM: " + theWeapon.AM + " | BM: " + theWeapon.BM + " | DM: " + theWeapon.DM + " | "
+    // handle edge cases
+    switch(equip)
+    {
+        case "katana":
+            equipmentChar += "Damage: " + theWeapon.damage.diceNum + "d" + theWeapon.damage.oneHanded.diceType + " (One Handed), "
+            equipmentChar += theWeapon.damage.diceNum + "d" + theWeapon.damage.twoHanded.diceType + " (Two Handed) "
+            break;
+        case "kusariGama":
+            equipmentChar += "Damage: " + theWeapon.damage.diceNum + "d" + theWeapon.damage.damageChain.diceType + " (Chain), "
+            equipmentChar += theWeapon.damage.diceNum + "d" + theWeapon.damage.damageSickle.diceType + " (Sickle) "
+            break;
+        case "handMortar":
+            equipmentChar += "Damage: Varies "
+            break;
+        default:
+            equipmentChar += "Damage: " + theWeapon.damage.diceNum + "d" + theWeapon.damage.diceType;
+            if (theWeapon.damage.damageMod > 0) { equipmentChar += "+" + theWeapon.damage.damageMod}
+            equipmentChar += " "
+            break;
+    }
+    equipmentChar += " | Range: " + theWeapon.range + "m ";
+    equipmentChar += " | Cost: " + theWeapon.cost + " gold"
+    const li = document.createElement('li')
+    li.innerHTML = equipmentChar
+    equipmentList.appendChild(li);
+    equipmentData.push(equipmentChar)
+    return equipmentChar;
+}
+
+function clearEquipment()
+{
+    equipmentList.innerHTML = ""
+    equipmentData = []
+}
+
 function addClassSkillValues()
 {
     console.log(currentClassSkills.at(0))
     console.log(currentClassSkills[0])
-    if (currentClassSkills[0] !== "")
+    if (currentClassSkills.at(0) !== "")
     {
         addToSkill(currentClassSkills[0], -5)
         addToSkill(currentClassSkills[1], -5)
@@ -775,8 +858,9 @@ function addClassSkillValues()
     const secondClassSkill = ClassSkills.get(lowerCaseClass)[1]
     currentClassSkills[0] = firstClassSkill;
     currentClassSkills[1] = secondClassSkill;
-    addToSkill(firstClassSkill, 5)
-    addToSkill(secondClassSkill, 5)
+    console.log(currentClassSkills[0])
+    addToSkill(currentClassSkills[0], 5)
+    addToSkill(currentClassSkills[1], 5)
 }
 
 function createLifepath(age = 0)
@@ -990,8 +1074,16 @@ function exportToClipboard()
     characterClipboardText += "\tTheatre: " + document.getElementById('theatre').value
     characterClipboardText += "\tWardrobe: " + document.getElementById('wardrobe').value
     
+    // LIFEPATH
     characterClipboardText += "\n\nLIFEPATH:\n" + getLifepathAsString()
     characterClipboardText += "\n\nLIFE EVENTS:\n" + getLifeEventsAsString()
+
+    // EQUIPMENT
+    characterClipboardText += "\n\nEQUIPMENT:\n"
+    for (let i = 0; i < equipmentData.length; i++)
+    {
+        characterClipboardText += "- " + equipmentData[i] +"\n";
+    }
 
     navigator.clipboard.writeText(characterClipboardText)
 }
@@ -1000,5 +1092,6 @@ function init()
 {
     "use strict"
     classSelectCreateList()
+    addEquipmentToDropdown()
 }
 window.onload = init

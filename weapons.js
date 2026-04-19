@@ -184,6 +184,21 @@ export const weapons = {
         range: 3,
         cost: 1
     },
+    sasumata: {
+        name: "Sasumata",
+        attributes: ["Two Handed", "Binding", "Piercing"],
+        skill: "Polearms",
+        AM: 2,
+        BM: 1,
+        DM: -1,
+        damage: {
+            diceType: 10,
+            diceNum: 1,
+            damageMod: 0
+        },
+        range: 3,
+        cost: 20
+    },
     kama: {
         name: "Kama",
         attributes: ["One Handed", "Piercing"],
