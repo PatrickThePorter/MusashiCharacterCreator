@@ -1,6 +1,8 @@
 import { weapons } from "./weapons.js"
 import { weaponMods } from "./weapons.js"
 
+import { startingEquipment } from "./startingEquipment.js"
+
 const classSelector = document.getElementById('charClassSelect')
 const lifepathList = document.getElementById('lifepaths')
 const lifeEventList = document.getElementById('lifeevents')
@@ -14,6 +16,7 @@ const equipmentSelector = document.getElementById('selectEquipment')
 const equipmentList = document.getElementById('equipmentList')
 const addEquipmentButton = document.getElementById('addEquipmentButton')
 const clearEquipmentButton = document.getElementById('clearEquipmentButton')
+const goldAmount = document.getElementById('goldCount')
 
 const charName = document.getElementById('name')
 
@@ -565,6 +568,7 @@ classSelector.addEventListener("change", () => {
     setAbilities(classSelector.value.toLowerCase())
 
     addClassSkillValues()
+    setStarterEquipment()
 });
 
 lifeEventGenButton.onclick = (event) =>
@@ -802,9 +806,27 @@ function addEquipmentToDropdown()
     })
 }
 
-function addEquipmentToEquipmentList(equip)
+function addEquipmentToEquipmentList(equip, amount = -1)
 {
-    console.log(equip)
+    console.log(weapons[equip])
+    // why do i have a feeling this line of code right here will punish me later (4/20/2026)
+    if (weapons[equip] === undefined)
+    {
+        let newEquipment
+        if (amount !== -1)
+        {
+            newEquipment = equip + " x" + amount
+        }
+        else
+        {
+            newEquipment = equip
+        }
+        const li = document.createElement('li')
+        li.innerHTML = newEquipment;
+        equipmentList.appendChild(li);
+        equipmentData.push(newEquipment)
+        return newEquipment
+    }
     const theWeapon = weapons[equip]
     let equipmentChar = theWeapon.name
     equipmentChar += " | Attributes: "
@@ -838,6 +860,7 @@ function addEquipmentToEquipmentList(equip)
     }
     equipmentChar += " | Range: " + theWeapon.range + "m ";
     equipmentChar += " | Cost: " + theWeapon.cost + " gold"
+    if (amount !== -1) { equipmentChar += " | (x" + amount + ")"}
     const li = document.createElement('li')
     li.innerHTML = equipmentChar
     equipmentList.appendChild(li);
@@ -845,10 +868,39 @@ function addEquipmentToEquipmentList(equip)
     return equipmentChar;
 }
 
+function setGold(gold)
+{
+    goldAmount.value = gold;
+}
+
 function clearEquipment()
 {
     equipmentList.innerHTML = ""
     equipmentData = []
+}
+
+function setStarterEquipment()
+{
+    clearEquipment()
+    const musashiClass = classSelector.value.toLowerCase()
+    const classEquipment = startingEquipment[musashiClass];
+
+    setGold(classEquipment.gold)
+    for (let i = 0; i < classEquipment.weapons.length; i++)
+    {
+        if (Array.isArray(classEquipment.weapons[i]))
+        {
+            console.log("There are multiple!")
+            addEquipmentToEquipmentList(classEquipment.weapons[i][0], classEquipment.weapons[i][1])
+        }
+        else {addEquipmentToEquipmentList(classEquipment.weapons[i])}
+    }
+    // weapon choices (will be random for now)
+    if (classEquipment.weaponsChoice.length !== 0) {addEquipmentToEquipmentList(pickRandomFromArray(classEquipment.weaponsChoice))}
+    for (let j = 0; j < classEquipment.equipment.length; j++)
+    {
+        addEquipmentToEquipmentList(classEquipment.equipment[j])
+    }
 }
 
 function addClassSkillValues()
@@ -1092,6 +1144,10 @@ function exportToClipboard()
         characterClipboardText += "- " + equipmentData[i] +"\n";
     }
 
+    // PLAYER NOTES
+    characterClipboardText += "\n\nOTHER NOTES:\n"
+    characterClipboardText += document.getElementById('otherNotesBox').value
+
     navigator.clipboard.writeText(characterClipboardText)
 }
 
@@ -1101,5 +1157,6 @@ function init()
     classSelectCreateList()
     addEquipmentToDropdown()
     setAbilities(classSelector.value.toLowerCase())
+    setStarterEquipment()
 }
 window.onload = init
