@@ -10,16 +10,17 @@
             .skills {display:flex;flex-direction: column;gap:10px}
             .musashiList {text-align: left; padding-left: 35%}
             .equipList {text-align: center; padding-left: 0; list-style-position: inside;}
+            .theBox {border: 100px double #b9bf6f;}
         </style>
         <div id="about" class="red">
             <h1>Myths of Musashi Character Creator</h1>
-            <h4>Version 0.3.0</h4>
+            <h4>Version 0.3.1</h4>
             <p>
                 Welcome to the Myths of Musashi Character Creator. Use the controls below to create your Musashi character. Once completed,
                 you can export your character.
             </p>
         </div>
-        <div id="creator">
+        <div id="creator", class="theBox">
             <h2>Basics</h2>
             <h3>Name</h3>
             <label for="name" id="character_name_label">
@@ -246,7 +247,7 @@
             </div>
             </div>
         </div>
-        <div id="lifepathDiv">
+        <div id="lifepathDiv", class="theBox">
             <h2>Lifepath and Life Events</h2>
             <h3>Lifepath</h3>
             <button id="genLifepath">Generate Lifepath</button>
@@ -256,7 +257,7 @@
             <button id="genLifeEvents">Generate Life Events</button>
             <ul id="lifeevents", class="musashiList"></ul>
         </div>
-        <div id="class_abilities">
+        <div id="class_abilities", class="theBox">
             <h2>Class Abilities</h2>
             <div id="passive_ability">
                 <h3 id="passive_name"></h3>
@@ -267,7 +268,7 @@
                 <p id="active_ability_text"></p>
             </div>
         </div>
-        <div id="equipment">
+        <div id="equipment", class="theBox">
             <h2>Equipment</h2>
             <p>You get some starting equipment based on your class.</p>
             <div id="addEquipment">
