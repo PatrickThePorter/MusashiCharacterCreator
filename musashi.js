@@ -560,9 +560,9 @@ classSelector.addEventListener("change", () => {
     let skillDOM1 = document.getElementById(skill1)
     let skillDOM2 = document.getElementById(skill2)
     skillDOM1.value = 5;
-    skillDOM2.value = 5;
+    skillDOM2.value = 5;*/
 
-    setAbilities(classSelector.value.toLowerCase())*/
+    setAbilities(classSelector.value.toLowerCase())
 
     addClassSkillValues()
 });
@@ -662,10 +662,17 @@ function returnClassStringAsObj(className)
     }
 }
 
-function addToSkill(skill, mod)
+function addToSkill(skill, mod, set = false)
 {
     let docSkill = document.getElementById(skill)
-    docSkill.value = Math.max(Number(docSkill.value) + mod, 0)
+    if (set)
+    {
+        docSkill.value = mod;
+    }
+    else
+    {
+        docSkill.value = Math.max(Number(docSkill.value) + mod, 0)
+    }
     console.log("adding " + mod + " to " + skill);
 }
 
@@ -859,8 +866,8 @@ function addClassSkillValues()
     currentClassSkills[0] = firstClassSkill;
     currentClassSkills[1] = secondClassSkill;
     console.log(currentClassSkills[0])
-    addToSkill(currentClassSkills[0], 5)
-    addToSkill(currentClassSkills[1], 5)
+    if (Number(document.getElementById(currentClassSkills[0]).value) === 0) {addToSkill(currentClassSkills[0], 5)}
+    if (Number(document.getElementById(currentClassSkills[1]).value) === 0) {addToSkill(currentClassSkills[1], 5)}
 }
 
 function createLifepath(age = 0)
@@ -1093,5 +1100,6 @@ function init()
     "use strict"
     classSelectCreateList()
     addEquipmentToDropdown()
+    setAbilities(classSelector.value.toLowerCase())
 }
 window.onload = init
