@@ -41,21 +41,28 @@
                 Enter your statistics from a pool of starting points. The amount of starting points can vary, but it is usually 30.
                 Statistics are between 3-10 inclusive.
             </p>
-            <label for="charMig" id="charMig_label">
-                <b>MIGHT: </b><input type="number" id="charMig" min="3" max="10" value="3">
+            <label for="startPoints" id="startPoints_label">
+                <b>STARTING POINTS: </b><input type="number" id="startPoints" min="15" max="100" value="30">
             </label>
-            <label for="charRef" id="charRef_label">
-                <b>REFLEX: </b><input type="number" id="charRef" min="3" max="10" value="3">
-            </label>
-            <label for="charInt" id="charInt_label">
-                <b>INTELLECT: </b><input type="number" id="charInt" min="3" max="10" value="3">
-            </label>
-            <label for="charWil" id="charWil_label">
-                <b>WILLPOWER: </b><input type="number" id="charWil" min="3" max="10" value="3">
-            </label>
-            <label for="charAll" id="charAtt_label">
-                <b>ALLURE: </b><input type="number" id="charAll" min="3" max="10" value="3">
-            </label>
+            <br>
+            <p id="numPointsLeft_label">STAT POINTS REMAINING: <span id="numPointsLeft"></span></p>
+            <div id="statLabels">
+                <label for="charMig" id="charMig_label">
+                    <b>MIGHT: </b><input type="number" id="charMig" min="3" max="10" value="3">
+                </label>
+                <label for="charRef" id="charRef_label">
+                    <b>REFLEX: </b><input type="number" id="charRef" min="3" max="10" value="3">
+                </label>
+                <label for="charInt" id="charInt_label">
+                    <b>INTELLECT: </b><input type="number" id="charInt" min="3" max="10" value="3">
+                </label>
+                <label for="charWil" id="charWil_label">
+                    <b>WILLPOWER: </b><input type="number" id="charWil" min="3" max="10" value="3">
+                </label>
+                <label for="charAll" id="charAtt_label">
+                    <b>ALLURE: </b><input type="number" id="charAll" min="3" max="10" value="3">
+                </label>
+            </div>
             <h3>Skills</h3>
             <p>
                 You automatically get 5 in two skills based on your class. You have 15 skill points to start with to distribute among the other skills.

@@ -1,6 +1,5 @@
 import { weapons } from "./weapons.js"
 import { weaponMods } from "./weapons.js"
-
 import { startingEquipment } from "./startingEquipment.js"
 
 const classSelector = document.getElementById('charClassSelect')
@@ -11,6 +10,12 @@ const lifePathGenButton = document.getElementById('genLifepath')
 const charAgeInput = document.getElementById('age')
 const exportToClipboardBtn = document.getElementById('copyToClipboard')
 const asexualCheck = document.getElementById('asexual')
+
+const startPointsLabel = document.getElementById('startPoints')
+const startPointsInput = document.getElementById('startPoints_label')
+const remainingPointsLabel = document.getElementById('numPointsLeft')
+const remainingPointsText = document.getElementById('numPointsLeft_label')
+const statLabelDiv = document.getElementById('statLabels')
 
 const equipmentSelector = document.getElementById('selectEquipment')
 const equipmentList = document.getElementById('equipmentList')
@@ -24,6 +29,9 @@ let lifepathData = []
 let lifeEventData = []
 
 let equipmentData = []
+
+let isOverbudget = false
+let isUnderbudget = true
 
 const classList = {
     Samurai: "Samurai",
@@ -548,23 +556,6 @@ let charRomanceType = RomanceType.FLING;
 let isAsexual = false
 
 classSelector.addEventListener("change", () => {
-    /*if (currentClassSkills)
-    {
-        console.log(currentClassSkills[0])
-        let prevousSkill1 = document.getElementById(currentClassSkills[0])
-        let prevousSkill2 = document.getElementById(currentClassSkills[1])
-        if (prevousSkill1 != null) {prevousSkill1.value = prevousSkill1.value - 5}
-        if (prevousSkill2 != null) {prevousSkill2.value = prevousSkill2.value - 5}
-    }
-    let skill1 = ClassSkills[classSelector.value][0].toLowerCase()
-    let skill2 = ClassSkills[classSelector.value][1].toLowerCase()
-    currentClassSkills[0] = skill1
-    currentClassSkills[1] = skill2
-    let skillDOM1 = document.getElementById(skill1)
-    let skillDOM2 = document.getElementById(skill2)
-    skillDOM1.value = 5;
-    skillDOM2.value = 5;*/
-
     setAbilities(classSelector.value.toLowerCase())
 
     addClassSkillValues()
@@ -606,6 +597,35 @@ addEquipmentButton.onclick = (event) =>
 clearEquipmentButton.onclick = (event) =>
 {
     clearEquipment()
+}
+
+statLabelDiv.addEventListener("input", (e) => {
+    if (!e.target.matches('input[type="number"]')) {
+        return;
+    }
+    reactToStatChange()
+})
+
+startPointsInput.addEventListener("input", (e) =>{
+    if (!e.target.matches('input[type="number"]')) {
+        return;
+    }
+    reactToStatChange()
+})
+
+function reactToStatChange()
+{
+    let statPointsCurrent = 0
+    statLabelDiv.querySelectorAll('input[type="number"]').forEach(input => {
+        statPointsCurrent += Number(input.value)
+    })
+    const statPointsLeft = Number(startPointsLabel.value)
+    remainingPointsLabel.value = Number(statPointsLeft - statPointsCurrent)
+    remainingPointsLabel.textContent = remainingPointsLabel.value
+    const remaining = remainingPointsLabel.value
+    isOverbudget = remaining < 0;
+    isOverbudget ? remainingPointsText.style.color = "red" : remainingPointsText.style.color = "black"
+    isUnderbudget = remaining > 0;
 }
 
 function pickRandomFromArray(arr)
@@ -922,6 +942,16 @@ function addClassSkillValues()
     if (Number(document.getElementById(currentClassSkills[1]).value) === 0) {addToSkill(currentClassSkills[1], 5)}
 }
 
+function setStartingStatPoints(points)
+{   
+    remainingPointsLabel.textContent = points
+}
+
+function addStartingStatPoints(points)
+{
+    remainingPointsLabel.textContent = Number(remainingPointsLabel.textContent) + points
+}
+
 function createLifepath(age = 0)
 {
     if (age === 0)
@@ -1143,6 +1173,7 @@ function exportToClipboard()
     {
         characterClipboardText += "- " + equipmentData[i] +"\n";
     }
+    characterClipboardText += "\nGOLD: " + goldAmount;
 
     // PLAYER NOTES
     characterClipboardText += "\n\nOTHER NOTES:\n"
@@ -1158,5 +1189,6 @@ function init()
     addEquipmentToDropdown()
     setAbilities(classSelector.value.toLowerCase())
     setStarterEquipment()
+    reactToStatChange()
 }
 window.onload = init
